@@ -1,8 +1,9 @@
 import { useStore, PartType } from "@/lib/store";
 import { useElaborationStore } from "@/lib/elaborationStore";
+import { useRefineStore } from "@/lib/refineStore";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Filter, ArrowUpDown, Sparkles } from "lucide-react";
+import { Plus, Filter, ArrowUpDown, Sparkles, PenLine, Diamond } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 
