@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useMemo, useCallback } from 'react';
 import {
   ReactFlow,
   MiniMap,
@@ -16,6 +16,14 @@ import { useStore } from '@/lib/store';
 import { useElaborationStore } from '@/lib/elaborationStore';
 import { useSelfEnergyStore } from '@/lib/selfEnergyStore';
 import { useRefineStore } from '@/lib/refineStore';
+import { ManagerNode, FirefighterNode, ExileNode, SelfNode } from '@/components/map/CustomNodes';
+
+const nodeTypes = {
+  manager: ManagerNode,
+  firefighter: FirefighterNode,
+  exile: ExileNode,
+  self: SelfNode,
+};
 
 export default function PartsMap() {
   const parts = useStore((state) => state.parts);
@@ -24,8 +32,7 @@ export default function PartsMap() {
   const { getRefinementLevel } = useRefineStore();
   const latestCheckIn = getLatestCheckIn();
   const blendedIds = getRecentBlendedPartIds();
-  
-  // Position map — Self centered, others around
+
   const positionMap: Record<string, { x: number; y: number }> = {
     p5: { x: 400, y: 250 },
     p1: { x: 150, y: 120 },
@@ -34,55 +41,23 @@ export default function PartsMap() {
     p3: { x: 650, y: 380 },
   };
 
-  // Shape: Manager=rounded-lg, Firefighter=starburst clip, Exile=rounded-full, Self=octagon clip
-  const shapeStyle = (type: string): React.CSSProperties => {
-    if (type === 'Self') return { clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' };
-    if (type === 'Firefighter') return { clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)' };
-    return {};
-  };
-  const shapeClass = (type: string) => {
-    if (type === 'Exile') return 'rounded-full';
-    if (type === 'Manager') return 'rounded-lg';
-    return '';
-  };
-
   const initialNodes: Node[] = parts.map((part, index) => {
     const elaborated = isPartElaborated(part.id);
     const isBlended = blendedIds.includes(part.id);
-    const refined = getRefinementLevel(part.id) !== 'none';
     const pos = positionMap[part.id] || { x: 250 + index * 150, y: 200 };
+    const typeKey = part.type.toLowerCase() as 'manager' | 'firefighter' | 'exile' | 'self';
 
     return {
       id: part.id,
+      type: typeKey,
       position: pos,
       data: {
-        label: (
-          <div
-            className={`p-4 text-center border-2 shadow-sm bg-card relative ${shapeClass(part.type)}`}
-            style={{
-              borderColor: part.accentColor,
-              boxShadow: elaborated ? `0 0 12px 2px ${part.accentColor}60` : refined ? `0 0 10px 2px ${part.accentColor}40` : isBlended ? `0 0 10px 3px hsl(45, 90%, 50%, 0.4)` : undefined,
-              ...(part.type === 'Self' || part.type === 'Firefighter' ? shapeStyle(part.type) : {}),
-              minWidth: part.type === 'Self' ? 100 : 90,
-              minHeight: part.type === 'Self' ? 100 : undefined,
-              display: 'flex',
-              flexDirection: 'column' as const,
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: part.type === 'Self' ? `${part.accentColor}18` : undefined,
-            }}
-          >
-            {elaborated && (
-              <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-primary" title="Elaborated">
-                <span className="text-[8px] text-primary-foreground flex items-center justify-center h-full">✦</span>
-              </div>
-            )}
-            <div className="font-bold text-sm">{part.name}</div>
-            <div className="text-[10px] opacity-70">{part.type}</div>
-          </div>
-        ),
+        name: part.name,
+        initial: part.name.charAt(0).toUpperCase(),
+        intensity: part.intensity,
+        elaborated,
+        blended: isBlended,
       },
-      style: { width: part.type === 'Self' ? 120 : 110 },
     };
   });
 
@@ -112,7 +87,7 @@ export default function PartsMap() {
         <h1 className="text-3xl font-bold tracking-tight text-primary">Parts Map</h1>
         <p className="text-muted-foreground">Interactive visualization of your internal system.</p>
       </div>
-      
+
       <div className="flex-1 rounded-xl border bg-card shadow-inner overflow-hidden relative">
         <ReactFlow
           nodes={nodes}
@@ -120,6 +95,7 @@ export default function PartsMap() {
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
+          nodeTypes={nodeTypes}
           fitView
           attributionPosition="bottom-right"
         >
@@ -128,7 +104,6 @@ export default function PartsMap() {
           <Background color="#ccc" gap={16} />
         </ReactFlow>
 
-        {/* Self-energy gauge overlay */}
         {latestCheckIn && (
           <div className="absolute bottom-4 left-4 z-10 bg-card/90 backdrop-blur-sm border rounded-lg p-3 shadow-md">
             <div className="relative w-12 h-12 mx-auto">
