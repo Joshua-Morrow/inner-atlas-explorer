@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -20,8 +21,10 @@ import Clarity from "./pages/Clarity";
 import BodyMap from "./pages/BodyMap";
 import Practices from "./pages/Practices";
 import Journey from "./pages/Journey";
+import PartProfile from "./pages/PartProfile";
 import NotFound from "./pages/NotFound";
 import { useAssessmentStore } from "./lib/assessmentStore";
+import { seedDemoData } from "./lib/seedData";
 
 const queryClient = new QueryClient();
 
@@ -33,35 +36,43 @@ function AssessmentGuard({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+function AppContent() {
+  useEffect(() => { seedDemoData(); }, []);
+  return (
+    <Routes>
+      <Route path="/assessment" element={<Layout />}>
+        <Route index element={<Assessment />} />
+      </Route>
+      <Route path="/" element={<AssessmentGuard><Layout /></AssessmentGuard>}>
+        <Route index element={<Dashboard />} />
+        <Route path="inventory" element={<PartsInventory />} />
+        <Route path="part/:partId" element={<PartProfile />} />
+        <Route path="map" element={<PartsMap />} />
+        <Route path="dialogue" element={<InnerDialogue />} />
+        <Route path="datalinks" element={<DataLinks />} />
+        <Route path="update" element={<Update />} />
+        <Route path="elaborate/:partId" element={<Elaboration />} />
+        <Route path="refine/:partId" element={<Refine />} />
+        <Route path="trailhead" element={<Trailhead />} />
+        <Route path="self-energy" element={<SelfEnergy />} />
+        <Route path="couples" element={<CouplesConnection />} />
+        <Route path="clarity" element={<Clarity />} />
+        <Route path="body-map" element={<BodyMap />} />
+        <Route path="practices" element={<Practices />} />
+        <Route path="journey" element={<Journey />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
+  );
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/assessment" element={<Layout />}>
-            <Route index element={<Assessment />} />
-          </Route>
-          <Route path="/" element={<AssessmentGuard><Layout /></AssessmentGuard>}>
-            <Route index element={<Dashboard />} />
-            <Route path="inventory" element={<PartsInventory />} />
-            <Route path="map" element={<PartsMap />} />
-            <Route path="dialogue" element={<InnerDialogue />} />
-            <Route path="datalinks" element={<DataLinks />} />
-            <Route path="update" element={<Update />} />
-            <Route path="elaborate/:partId" element={<Elaboration />} />
-            <Route path="refine/:partId" element={<Refine />} />
-            <Route path="trailhead" element={<Trailhead />} />
-            <Route path="self-energy" element={<SelfEnergy />} />
-            <Route path="couples" element={<CouplesConnection />} />
-            <Route path="clarity" element={<Clarity />} />
-            <Route path="body-map" element={<BodyMap />} />
-            <Route path="practices" element={<Practices />} />
-            <Route path="journey" element={<Journey />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
+        <AppContent />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
