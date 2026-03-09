@@ -74,7 +74,7 @@ export default function PartsMap() {
         <p className="text-muted-foreground">Interactive visualization of your internal system.</p>
       </div>
       
-      <div className="flex-1 rounded-xl border bg-card shadow-inner overflow-hidden">
+      <div className="flex-1 rounded-xl border bg-card shadow-inner overflow-hidden relative">
         <ReactFlow
           nodes={nodes}
           edges={edges}
