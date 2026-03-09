@@ -23,6 +23,7 @@ const items = [
   { title: "Parts Map", url: "/map", icon: MapIcon },
   { title: "Inner Dialogue", url: "/dialogue", icon: MessageCircle },
   { title: "Trailhead", url: "/trailhead", icon: Route },
+  { title: "Self Energy", url: "/self-energy", icon: Sun },
   { title: "Update", url: "/update", icon: Zap },
   { title: "DataLinks", url: "/datalinks", icon: Book },
   { title: "Assessment", url: "/assessment", icon: ClipboardCheck },
