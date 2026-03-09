@@ -35,6 +35,7 @@ export function AppSidebar() {
   const parts = useStore((s) => s.parts)
   const { getPartElaborationProgress, isPartElaborated } = useElaborationStore()
   const trails = useTrailheadStore((s) => s.trails)
+  const { getRefinementLevel } = useRefineStore()
   const completedTrails = trails.filter((t) => t.status === 'completed')
   const pausedTrails = trails.filter((t) => t.status === 'paused')
 
