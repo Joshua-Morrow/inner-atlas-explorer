@@ -111,6 +111,42 @@ export function AppSidebar() {
           </SidebarGroup>
         )}
 
+        {/* Refine section */}
+        {parts.length > 0 && (
+          <SidebarGroup>
+            <SidebarGroupLabel>
+              <PenLine className="h-3.5 w-3.5 mr-1.5 inline" />
+              Refine
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {parts.map((part) => {
+                  const level = getRefinementLevel(part.id)
+                  const isActive = location.pathname === `/refine/${part.id}`
+                  return (
+                    <SidebarMenuItem key={part.id}>
+                      <SidebarMenuButton asChild isActive={isActive} tooltip={`${part.name} — ${level}`}>
+                        <Link to={`/refine/${part.id}`} className="flex items-center gap-2">
+                          <div className="relative w-4 h-4 flex-shrink-0 flex items-center justify-center">
+                            {level === 'full' ? (
+                              <Diamond className="h-3.5 w-3.5 text-primary fill-primary" />
+                            ) : level === 'partial' ? (
+                              <Diamond className="h-3.5 w-3.5 text-primary/60" style={{ clipPath: 'inset(50% 0 0 0)' }} />
+                            ) : (
+                              <Diamond className="h-3.5 w-3.5 text-muted-foreground/40" />
+                            )}
+                          </div>
+                          <span className="truncate group-data-[collapsible=icon]:hidden">{part.name}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
+
         {/* Trails section */}
         {(completedTrails.length > 0 || pausedTrails.length > 0) && (
           <SidebarGroup>

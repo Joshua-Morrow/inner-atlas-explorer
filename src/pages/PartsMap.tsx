@@ -48,6 +48,11 @@ export default function PartsMap() {
                 <span className="text-[8px] text-primary-foreground flex items-center justify-center h-full">✦</span>
               </div>
             )}
+            {refined && !elaborated && (
+              <div className="absolute -top-1 -left-1 w-3 h-3 rounded-full bg-accent" title="Refined">
+                <span className="text-[8px] text-accent-foreground flex items-center justify-center h-full">◆</span>
+              </div>
+            )}
             <div className="font-bold">{part.name}</div>
             <div className="text-xs opacity-70">{part.type}</div>
           </div>

@@ -87,6 +87,13 @@ export default function PartsInventory() {
                       {progress > 0 ? `Elaborate (${progress}%)` : 'Elaborate'}
                     </Link>
                   </Button>
+                  <Button variant="outline" size="sm" asChild className="gap-1.5 text-xs">
+                    <Link to={`/refine/${part.id}`}>
+                      <PenLine className="h-3 w-3" />
+                      Refine
+                      {getRefinementLevel(part.id) !== 'none' && <Diamond className="h-2.5 w-2.5 ml-0.5 text-primary" />}
+                    </Link>
+                  </Button>
                 </div>
               </CardContent>
             </Card>
