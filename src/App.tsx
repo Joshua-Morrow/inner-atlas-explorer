@@ -19,6 +19,7 @@ import CouplesConnection from "./pages/CouplesConnection";
 import Clarity from "./pages/Clarity";
 import BodyMap from "./pages/BodyMap";
 import Practices from "./pages/Practices";
+import Journey from "./pages/Journey";
 import NotFound from "./pages/NotFound";
 import { useAssessmentStore } from "./lib/assessmentStore";
 
