@@ -39,7 +39,7 @@ export default function PartsMap() {
       data: { 
         label: (
           <div className={`p-3 text-center border-2 shadow-sm bg-card ${shapeClass} relative`}
-               style={{ borderColor: part.accentColor, boxShadow: elaborated ? `0 0 12px 2px ${part.accentColor}60` : undefined }}>
+               style={{ borderColor: part.accentColor, boxShadow: elaborated ? `0 0 12px 2px ${part.accentColor}60` : isBlended ? `0 0 10px 3px hsl(45, 90%, 50%, 0.4)` : undefined }}>
             {elaborated && (
               <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-primary" title="Elaborated">
                 <span className="text-[8px] text-primary-foreground flex items-center justify-center h-full">✦</span>
