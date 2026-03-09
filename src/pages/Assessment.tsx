@@ -5,11 +5,20 @@ import Stage3 from '@/components/assessment/Stage3';
 import BreathPrompt from '@/components/assessment/BreathPrompt';
 import AssessmentComplete from '@/components/assessment/AssessmentComplete';
 import { Button } from '@/components/ui/button';
-import { Shield, ArrowRight } from 'lucide-react';
+import { Shield, ArrowRight, SkipForward } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 export default function Assessment() {
-  const { currentStage, setStage } = useAssessmentStore();
+  const { currentStage, setStage, computeIdentifiedParts } = useAssessmentStore();
+  const navigate = useNavigate();
+
+  const handleSkipToApp = () => {
+    // Compute parts from pre-seeded answers, mark complete, go to dashboard
+    computeIdentifiedParts();
+    useAssessmentStore.setState({ currentStage: 'complete', hasCompletedAssessment: true });
+    navigate('/');
+  };
 
   if (currentStage === 'not-started') {
     return (
@@ -29,9 +38,14 @@ export default function Assessment() {
           <p className="text-sm text-muted-foreground mb-8">
             You can save your progress and return at any time. There are no right or wrong answers — only honest ones.
           </p>
-          <Button onClick={() => setStage('stage1')} size="lg" className="gap-2 px-8">
-            Begin Assessment <ArrowRight className="h-4 w-4" />
-          </Button>
+          <div className="flex flex-col gap-3">
+            <Button onClick={() => setStage('stage1')} size="lg" className="gap-2 px-8">
+              Begin Assessment <ArrowRight className="h-4 w-4" />
+            </Button>
+            <Button onClick={handleSkipToApp} variant="ghost" size="sm" className="gap-2 text-muted-foreground">
+              <SkipForward className="h-3 w-3" /> Skip to App (use sample data)
+            </Button>
+          </div>
         </motion.div>
       </div>
     );

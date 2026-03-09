@@ -20,12 +20,24 @@ const d = (daysAgo: number) =>
   new Date(Date.now() - daysAgo * 86_400_000).toISOString();
 
 export function seedDemoData() {
-  // ── Assessment guard ──
+  // ── Assessment: pre-seed stage1 answers for demo but don't skip flow ──
   const assessment = useAssessmentStore.getState();
-  if (!assessment.hasCompletedAssessment) {
+  if (!assessment.hasCompletedAssessment && Object.keys(assessment.stage1Answers).length === 0) {
+    // Pre-populate a handful of parts with realistic scores so Stage 1
+    // summary & completion screens render with content during demo
     useAssessmentStore.setState({
-      hasCompletedAssessment: true,
-      currentStage: 'complete',
+      stage1Answers: {
+        'mgr-perfectionist': [4, 5, 4, 3, 5],
+        'mgr-critic': [5, 4, 4, 3, 4],
+        'mgr-pleaser': [3, 4, 3, 3, 4],
+        'mgr-controller': [2, 2, 3, 2, 1],
+        'ff-distracter': [4, 3, 4, 5, 3],
+        'ff-dissociator': [2, 1, 2, 2, 1],
+        'ff-rage': [3, 3, 4, 3, 3],
+        'exile-abandoned': [4, 5, 4, 4, 5],
+        'exile-shame': [3, 4, 4, 3, 4],
+        'exile-lonely': [2, 2, 3, 2, 2],
+      },
     });
   }
 
