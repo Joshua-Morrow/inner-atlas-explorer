@@ -82,8 +82,8 @@ const mockDialogues: Dialogue[] = [
 ];
 
 export const useStore = create<IFSStore>((set) => ({
-  parts: mockParts,
-  dialogues: mockDialogues,
+  parts: [],
+  dialogues: [],
   addPart: (part) => set((state) => ({ 
     parts: [...state.parts, { ...part, id: Math.random().toString(36).substring(7) }] 
   })),
