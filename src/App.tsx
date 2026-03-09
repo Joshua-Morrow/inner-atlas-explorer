@@ -15,6 +15,7 @@ import Elaboration from "./pages/Elaboration";
 import Trailhead from "./pages/Trailhead";
 import SelfEnergy from "./pages/SelfEnergy";
 import Refine from "./pages/Refine";
+import CouplesConnection from "./pages/CouplesConnection";
 import NotFound from "./pages/NotFound";
 import { useAssessmentStore } from "./lib/assessmentStore";
 
