@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import PartsInventory from "./pages/PartsInventory";
@@ -10,9 +10,20 @@ import PartsMap from "./pages/PartsMap";
 import InnerDialogue from "./pages/InnerDialogue";
 import DataLinks from "./pages/DataLinks";
 import Update from "./pages/Update";
+import Assessment from "./pages/Assessment";
 import NotFound from "./pages/NotFound";
+import { useAssessmentStore } from "./lib/assessmentStore";
 
 const queryClient = new QueryClient();
+
+function AssessmentGuard({ children }: { children: React.ReactNode }) {
+  const { hasCompletedAssessment, currentStage } = useAssessmentStore();
+  // If never completed and not in-progress, redirect to assessment
+  if (!hasCompletedAssessment && currentStage === 'not-started') {
+    return <Navigate to="/assessment" replace />;
+  }
+  return <>{children}</>;
+}
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -21,7 +32,10 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout />}>
+          <Route path="/assessment" element={<Layout />}>
+            <Route index element={<Assessment />} />
+          </Route>
+          <Route path="/" element={<AssessmentGuard><Layout /></AssessmentGuard>}>
             <Route index element={<Dashboard />} />
             <Route path="inventory" element={<PartsInventory />} />
             <Route path="map" element={<PartsMap />} />

@@ -1,0 +1,1120 @@
+import { PartType } from './store';
+
+export interface AssessmentPart {
+  id: string;
+  name: string;
+  type: PartType;
+  description: string;
+  screeningQuestions: string[];
+  triggerStatements: string[];
+  intensityDescriptors: { low: string; medium: string; high: string };
+  defaultAvatar: string;
+  defaultAccentColor: string;
+  defaultManifestationMode: string;
+}
+
+// ─── MANAGERS (14) ───
+const managers: AssessmentPart[] = [
+  {
+    id: 'mgr-perfectionist', name: 'Perfectionist', type: 'Manager',
+    description: 'Drives you to get everything right to avoid criticism or failure.',
+    screeningQuestions: [
+      'I feel like my work is never quite good enough.',
+      'I spend extra time on tasks to make sure they are flawless.',
+      'I get upset with myself when I make mistakes.',
+      'I hesitate to share things until they are perfect.',
+      'I often redo tasks because they don\'t meet my standards.',
+    ],
+    triggerStatements: [
+      'Being evaluated or judged by others.',
+      'Receiving criticism, even if constructive.',
+      'Noticing imperfections in my own work.',
+      'Comparing my output to others\' high-quality work.',
+      'Facing a new task where failure feels possible.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasionally notices flaws but can move on.',
+      medium: 'Regularly spends extra time refining; self-critical after mistakes.',
+      high: 'Paralyzed by the need for perfection; constant self-criticism.',
+    },
+    defaultAvatar: 'target', defaultAccentColor: 'hsl(230, 60%, 40%)', defaultManifestationMode: 'Cognitive',
+  },
+  {
+    id: 'mgr-analyzer', name: 'Analyzer', type: 'Manager',
+    description: 'Overanalyzes situations to predict and prevent problems.',
+    screeningQuestions: [
+      'I overthink decisions, even simple ones.',
+      'I analyze situations from every angle before acting.',
+      'My mind races through possible outcomes when facing uncertainty.',
+      'I often get stuck in "analysis paralysis."',
+      'I feel safer when I\'ve thought through every scenario.',
+    ],
+    triggerStatements: [
+      'Making an important decision with limited information.',
+      'Encountering a new or unfamiliar situation.',
+      'Being pressured to decide quickly.',
+      'Facing ambiguity in relationships or work.',
+      'Worrying about making the wrong choice.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasionally overthinks but generally decides in reasonable time.',
+      medium: 'Regularly gets caught in analysis loops; decision-making feels effortful.',
+      high: 'Chronic overthinking that delays action and causes significant distress.',
+    },
+    defaultAvatar: 'brain', defaultAccentColor: 'hsl(230, 60%, 40%)', defaultManifestationMode: 'Cognitive',
+  },
+  {
+    id: 'mgr-critic', name: 'Critic', type: 'Manager',
+    description: 'Harshly judges you to motivate improvement or prevent shame.',
+    screeningQuestions: [
+      'I have a harsh inner voice that points out my flaws.',
+      'I mentally criticize myself throughout the day.',
+      'I feel like I should be doing better than I am.',
+      'I compare myself negatively to others.',
+      'My self-talk is often discouraging or mean.',
+    ],
+    triggerStatements: [
+      'Making a mistake in front of others.',
+      'Failing to meet my own expectations.',
+      'Seeing others succeed where I struggle.',
+      'Receiving negative feedback.',
+      'Feeling like I\'m falling behind in life.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasional self-critical thoughts that pass quickly.',
+      medium: 'Frequent inner criticism that affects mood and confidence.',
+      high: 'Relentless self-attack; pervasive feelings of inadequacy.',
+    },
+    defaultAvatar: 'eye', defaultAccentColor: 'hsl(230, 60%, 40%)', defaultManifestationMode: 'Cognitive',
+  },
+  {
+    id: 'mgr-pleaser', name: 'Pleaser', type: 'Manager',
+    description: 'Prioritizes others\' needs and approval to maintain connection.',
+    screeningQuestions: [
+      'I often say yes when I want to say no.',
+      'I worry about disappointing people.',
+      'I adjust my behavior to make others comfortable.',
+      'I feel responsible for other people\'s emotions.',
+      'I neglect my own needs to help others.',
+    ],
+    triggerStatements: [
+      'Someone expressing disappointment in me.',
+      'Being asked for help when I\'m already overwhelmed.',
+      'Sensing tension or conflict in a group.',
+      'Needing to set a boundary with someone I care about.',
+      'Fear of being seen as selfish.',
+    ],
+    intensityDescriptors: {
+      low: 'Sometimes puts others first but can set boundaries.',
+      medium: 'Regularly sacrifices own needs; difficulty saying no.',
+      high: 'Chronically self-abandoning; identity defined by others\' approval.',
+    },
+    defaultAvatar: 'heart-handshake', defaultAccentColor: 'hsl(230, 60%, 40%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'mgr-controller', name: 'Controller', type: 'Manager',
+    description: 'Tries to control situations and outcomes to feel safe.',
+    screeningQuestions: [
+      'I need to be in control of situations to feel okay.',
+      'I get anxious when things don\'t go according to plan.',
+      'I tend to micromanage tasks or other people.',
+      'I have difficulty delegating because I don\'t trust others to do it right.',
+      'I feel uneasy when I can\'t influence an outcome.',
+    ],
+    triggerStatements: [
+      'Feeling like things are out of my hands.',
+      'Others not following through on commitments.',
+      'Unexpected changes to plans.',
+      'Being in a subordinate role.',
+      'Chaos or disorganization around me.',
+    ],
+    intensityDescriptors: {
+      low: 'Prefers structure but adapts to change.',
+      medium: 'Often rigid; stressed when plans change.',
+      high: 'Must control everything; severe anxiety when unable to.',
+    },
+    defaultAvatar: 'settings', defaultAccentColor: 'hsl(230, 60%, 40%)', defaultManifestationMode: 'Cognitive',
+  },
+  {
+    id: 'mgr-rationalizer', name: 'Rationalizer', type: 'Manager',
+    description: 'Uses logic and reasoning to avoid feeling emotions.',
+    screeningQuestions: [
+      'I tend to explain away my feelings with logic.',
+      'I feel more comfortable thinking than feeling.',
+      'Others have told me I seem emotionally distant.',
+      'I analyze my emotions rather than experiencing them.',
+      'I believe most problems can be solved with rational thinking.',
+    ],
+    triggerStatements: [
+      'Being in highly emotional situations.',
+      'Others expressing strong emotions toward me.',
+      'Feeling vulnerable or exposed.',
+      'Being asked "how do you feel?"',
+      'Grief, loss, or deep sadness.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasionally intellectualizes feelings but can access emotions.',
+      medium: 'Regularly defaults to logic; uncomfortable with vulnerability.',
+      high: 'Almost completely cut off from emotional experience.',
+    },
+    defaultAvatar: 'calculator', defaultAccentColor: 'hsl(230, 60%, 40%)', defaultManifestationMode: 'Cognitive',
+  },
+  {
+    id: 'mgr-comparer', name: 'Comparer', type: 'Manager',
+    description: 'Constantly measures yourself against others.',
+    screeningQuestions: [
+      'I frequently compare myself to others.',
+      'Social media often makes me feel inadequate.',
+      'I notice what others have that I don\'t.',
+      'I feel competitive even in non-competitive situations.',
+      'I measure my worth by how I stack up against peers.',
+    ],
+    triggerStatements: [
+      'Seeing others\' achievements on social media.',
+      'Being in a group of successful people.',
+      'Learning about a peer\'s accomplishment.',
+      'Feeling stagnant in my own growth.',
+      'Attending reunions or gatherings.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasional comparison that passes quickly.',
+      medium: 'Regular comparison that affects self-esteem.',
+      high: 'Constant measuring against others; pervasive inadequacy.',
+    },
+    defaultAvatar: 'scale', defaultAccentColor: 'hsl(230, 60%, 40%)', defaultManifestationMode: 'Cognitive',
+  },
+  {
+    id: 'mgr-skeptic', name: 'Skeptic', type: 'Manager',
+    description: 'Questions motives and doubts to protect from deception.',
+    screeningQuestions: [
+      'I tend to question other people\'s intentions.',
+      'I\'m slow to trust new people.',
+      'I look for hidden agendas in what people say.',
+      'I believe it\'s naive to take things at face value.',
+      'I often think "what\'s the catch?" when things go well.',
+    ],
+    triggerStatements: [
+      'Meeting new people who seem overly friendly.',
+      'Receiving unexpected generosity or compliments.',
+      'Entering a new environment or group.',
+      'Someone making promises.',
+      'Being asked to be vulnerable or open up.',
+    ],
+    intensityDescriptors: {
+      low: 'Mildly cautious with new people but can warm up.',
+      medium: 'Regularly suspicious; takes a long time to build trust.',
+      high: 'Deeply distrustful; assumes the worst in others.',
+    },
+    defaultAvatar: 'search', defaultAccentColor: 'hsl(230, 60%, 40%)', defaultManifestationMode: 'Cognitive',
+  },
+  {
+    id: 'mgr-caretaker', name: 'Caretaker', type: 'Manager',
+    description: 'Focuses on caring for others to feel worthy and needed.',
+    screeningQuestions: [
+      'I feel most valuable when I\'m helping someone.',
+      'I instinctively take on the caretaking role in groups.',
+      'I notice others\' needs before my own.',
+      'I feel guilty when I\'m not being useful.',
+      'Others come to me first when they need help.',
+    ],
+    triggerStatements: [
+      'Seeing someone in pain or distress.',
+      'Having free time with nothing to do for others.',
+      'Being told I don\'t need to help.',
+      'Someone else taking care of a task I usually handle.',
+      'Feeling unneeded or irrelevant.',
+    ],
+    intensityDescriptors: {
+      low: 'Naturally caring but maintains healthy boundaries.',
+      medium: 'Over-extends for others; neglects self-care.',
+      high: 'Identity entirely defined by caretaking; burnout.',
+    },
+    defaultAvatar: 'hand-helping', defaultAccentColor: 'hsl(230, 60%, 40%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'mgr-peacemaker', name: 'Peacemaker', type: 'Manager',
+    description: 'Avoids conflict at all costs to maintain harmony.',
+    screeningQuestions: [
+      'I go out of my way to avoid conflict.',
+      'I often suppress my opinions to keep the peace.',
+      'Arguments make me extremely uncomfortable.',
+      'I mediate between others even when it\'s not my role.',
+      'I\'d rather give in than have a disagreement.',
+    ],
+    triggerStatements: [
+      'Raised voices or angry tones.',
+      'Being asked to take sides.',
+      'Needing to express a dissenting opinion.',
+      'Witnessing others in conflict.',
+      'Feeling tension in a room.',
+    ],
+    intensityDescriptors: {
+      low: 'Prefers harmony but can handle disagreement.',
+      medium: 'Actively avoids conflict; suppresses needs.',
+      high: 'Extreme conflict avoidance; loses sense of self.',
+    },
+    defaultAvatar: 'dove', defaultAccentColor: 'hsl(230, 60%, 40%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'mgr-minimizer', name: 'Minimizer', type: 'Manager',
+    description: 'Downplays feelings and experiences to seem fine.',
+    screeningQuestions: [
+      'I tell myself my problems aren\'t that bad.',
+      'I minimize my feelings to not burden others.',
+      'I often say "I\'m fine" when I\'m not.',
+      'I feel like my struggles don\'t deserve attention.',
+      'I brush off compliments and concerns from others.',
+    ],
+    triggerStatements: [
+      'Someone asking if I\'m okay.',
+      'Feeling emotional and being around others.',
+      'Hearing about others\' worse problems.',
+      'Being in a vulnerable situation.',
+      'Being offered help or sympathy.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasionally downplays feelings but can acknowledge them.',
+      medium: 'Regularly dismisses own pain; hard to access vulnerability.',
+      high: 'Completely disconnected from own needs; numb.',
+    },
+    defaultAvatar: 'minus-circle', defaultAccentColor: 'hsl(230, 60%, 40%)', defaultManifestationMode: 'Cognitive',
+  },
+  {
+    id: 'mgr-optimist', name: 'Optimist', type: 'Manager',
+    description: 'Forces positivity to avoid facing painful realities.',
+    screeningQuestions: [
+      'I try to find the bright side even when things are really hard.',
+      'Others tell me I\'m too positive about bad situations.',
+      'I feel uncomfortable sitting with negative emotions.',
+      'I use positivity to push through difficult times.',
+      'I avoid talking about what\'s really wrong.',
+    ],
+    triggerStatements: [
+      'Facing a genuinely painful situation.',
+      'Others expressing pessimism or despair.',
+      'Feeling sad or hopeless.',
+      'Bad news or loss.',
+      'Being in a situation I can\'t fix.',
+    ],
+    intensityDescriptors: {
+      low: 'Generally optimistic with capacity for grief.',
+      medium: 'Uses positivity to bypass difficult emotions.',
+      high: 'Toxic positivity; unable to process pain.',
+    },
+    defaultAvatar: 'sun', defaultAccentColor: 'hsl(230, 60%, 40%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'mgr-hypervigilant', name: 'Hypervigilant', type: 'Manager',
+    description: 'Constantly scanning for threats and danger.',
+    screeningQuestions: [
+      'I\'m always on alert for potential problems.',
+      'I scan rooms and situations for threats.',
+      'I have difficulty relaxing even in safe environments.',
+      'I anticipate worst-case scenarios frequently.',
+      'My body feels tense much of the time.',
+    ],
+    triggerStatements: [
+      'Being in unfamiliar environments.',
+      'Sensing unpredictability in others\' behavior.',
+      'Being alone in public spaces.',
+      'Hearing unexpected noises.',
+      'Situations reminiscent of past negative experiences.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasionally watchful but can relax.',
+      medium: 'Frequently on guard; difficulty relaxing.',
+      high: 'Constant state of alertness; exhausting vigilance.',
+    },
+    defaultAvatar: 'radar', defaultAccentColor: 'hsl(230, 60%, 40%)', defaultManifestationMode: 'Interoceptive',
+  },
+  {
+    id: 'mgr-rulekeeper', name: 'Rule-Keeper', type: 'Manager',
+    description: 'Rigidly follows rules and expectations to avoid punishment.',
+    screeningQuestions: [
+      'I feel anxious when I break rules, even small ones.',
+      'I follow procedures precisely even when it\'s unnecessary.',
+      'I judge others for not following the rules.',
+      'I feel safest when there are clear guidelines.',
+      'Breaking a rule fills me with guilt or dread.',
+    ],
+    triggerStatements: [
+      'Seeing others break rules without consequence.',
+      'Being asked to bend or break a rule.',
+      'Ambiguous situations without clear guidelines.',
+      'Authority figures being unpredictable.',
+      'Making a decision that might not be "correct."',
+    ],
+    intensityDescriptors: {
+      low: 'Prefers structure but can be flexible.',
+      medium: 'Rigid about rules; anxiety when guidelines are unclear.',
+      high: 'Paralyzed without clear rules; severe guilt about any transgression.',
+    },
+    defaultAvatar: 'book-open', defaultAccentColor: 'hsl(230, 60%, 40%)', defaultManifestationMode: 'Cognitive',
+  },
+];
+
+// ─── FIREFIGHTERS (16) ───
+const firefighters: AssessmentPart[] = [
+  {
+    id: 'ff-distracter', name: 'Distracter', type: 'Firefighter',
+    description: 'Pulls your attention away from painful feelings with distractions.',
+    screeningQuestions: [
+      'I reach for my phone when I start feeling uncomfortable emotions.',
+      'I binge-watch shows to avoid thinking about problems.',
+      'I jump between activities when something feels too heavy.',
+      'I fill every quiet moment with stimulation.',
+      'I use social media or games to numb out.',
+    ],
+    triggerStatements: [
+      'Experiencing silence or stillness.',
+      'Feeling sadness or loneliness arising.',
+      'Being alone with my thoughts.',
+      'Facing a task that feels emotionally overwhelming.',
+      'After a difficult conversation.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasionally distracts but can sit with discomfort.',
+      medium: 'Regularly avoids feelings through distraction.',
+      high: 'Cannot tolerate any emotional discomfort; constant distraction.',
+    },
+    defaultAvatar: 'smartphone', defaultAccentColor: 'hsl(30, 90%, 50%)', defaultManifestationMode: 'Impulse',
+  },
+  {
+    id: 'ff-dissociator', name: 'Dissociator', type: 'Firefighter',
+    description: 'Disconnects from the present moment when overwhelmed.',
+    screeningQuestions: [
+      'I sometimes feel like I\'m watching myself from outside my body.',
+      'I zone out during stressful situations.',
+      'I lose track of time without realizing it.',
+      'I sometimes feel numb or disconnected from reality.',
+      'Others have noticed me "checking out" during conversations.',
+    ],
+    triggerStatements: [
+      'Intense emotional confrontation.',
+      'Feeling trapped or cornered.',
+      'Overwhelming sensory input.',
+      'Triggers related to past trauma.',
+      'Feeling powerless in a situation.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasional mild spacing out.',
+      medium: 'Regular episodes of disconnection.',
+      high: 'Frequent and prolonged dissociative episodes.',
+    },
+    defaultAvatar: 'cloud', defaultAccentColor: 'hsl(30, 90%, 50%)', defaultManifestationMode: 'Interoceptive',
+  },
+  {
+    id: 'ff-rage', name: 'Rage-Expresser', type: 'Firefighter',
+    description: 'Expresses intense anger to create distance or feel powerful.',
+    screeningQuestions: [
+      'I sometimes explode with anger that surprises even me.',
+      'I raise my voice or slam things when frustrated.',
+      'My anger feels bigger than the situation warrants.',
+      'I say hurtful things I later regret.',
+      'Anger feels like the only emotion I can easily access.',
+    ],
+    triggerStatements: [
+      'Feeling disrespected or dismissed.',
+      'Being treated unfairly.',
+      'Feeling powerless or helpless.',
+      'Being reminded of past injustices.',
+      'Boundaries being violated.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasional flashes of anger that are quickly managed.',
+      medium: 'Regular angry outbursts that affect relationships.',
+      high: 'Explosive rage episodes; significant relational damage.',
+    },
+    defaultAvatar: 'flame', defaultAccentColor: 'hsl(30, 90%, 50%)', defaultManifestationMode: 'Impulse',
+  },
+  {
+    id: 'ff-overwhelmer', name: 'Emotional Overwhelmer', type: 'Firefighter',
+    description: 'Floods you with intense emotions that feel uncontrollable.',
+    screeningQuestions: [
+      'I sometimes get hit by waves of emotion that feel uncontrollable.',
+      'My emotions escalate rapidly from mild to intense.',
+      'I cry easily and sometimes can\'t stop.',
+      'I feel emotions so intensely they\'re physically painful.',
+      'Others describe me as "too sensitive" or "too emotional."',
+    ],
+    triggerStatements: [
+      'Rejection or perceived abandonment.',
+      'Witnessing suffering.',
+      'Feeling misunderstood.',
+      'Unexpected kindness or tenderness.',
+      'Memories of painful past experiences.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasionally overwhelmed but recovers quickly.',
+      medium: 'Regular emotional flooding; takes time to stabilize.',
+      high: 'Frequent emotional storms; feeling out of control.',
+    },
+    defaultAvatar: 'waves', defaultAccentColor: 'hsl(30, 90%, 50%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'ff-panic', name: 'Panic-Inducer', type: 'Firefighter',
+    description: 'Triggers panic and anxiety to mobilize escape from threat.',
+    screeningQuestions: [
+      'I experience sudden rushes of panic that seem to come from nowhere.',
+      'My heart races and I can\'t breathe when stressed.',
+      'I feel an urgent need to escape certain situations.',
+      'Anxiety sometimes prevents me from doing normal activities.',
+      'I worry about having panic attacks.',
+    ],
+    triggerStatements: [
+      'Being in enclosed or crowded spaces.',
+      'Feeling trapped in a commitment or situation.',
+      'Physical sensations that remind me of past panic.',
+      'High-pressure deadlines or expectations.',
+      'Conflict or confrontation.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasional anxiety spikes.',
+      medium: 'Regular panic episodes that limit activities.',
+      high: 'Frequent, severe panic attacks; significantly limits life.',
+    },
+    defaultAvatar: 'alert-triangle', defaultAccentColor: 'hsl(30, 90%, 50%)', defaultManifestationMode: 'Interoceptive',
+  },
+  {
+    id: 'ff-drama', name: 'Drama-Creator', type: 'Firefighter',
+    description: 'Creates intensity and drama to distract from deeper pain.',
+    screeningQuestions: [
+      'I sometimes create or escalate situations for intensity.',
+      'I feel most alive during conflict or crisis.',
+      'Calm periods make me restless or anxious.',
+      'I\'ve been told I\'m dramatic or make mountains out of molehills.',
+      'I sometimes provoke others to get an emotional reaction.',
+    ],
+    triggerStatements: [
+      'Extended periods of calm or boredom.',
+      'Feeling emotionally flat or numb.',
+      'Stability that feels unfamiliar.',
+      'Not getting enough attention or engagement.',
+      'Suppressed emotions building up.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasionally stirs things up when bored.',
+      medium: 'Regularly creates intensity; struggles with calm.',
+      high: 'Constant drama creation; chaotic relationships.',
+    },
+    defaultAvatar: 'drama', defaultAccentColor: 'hsl(30, 90%, 50%)', defaultManifestationMode: 'Impulse',
+  },
+  {
+    id: 'ff-agitator', name: 'Physical Agitator', type: 'Firefighter',
+    description: 'Creates physical restlessness to discharge emotional energy.',
+    screeningQuestions: [
+      'I feel physically restless when I\'m emotionally uncomfortable.',
+      'I pace, fidget, or can\'t sit still when stressed.',
+      'I exercise intensely to manage my emotions.',
+      'My body feels wound up like a coiled spring.',
+      'I need physical movement to process feelings.',
+    ],
+    triggerStatements: [
+      'Being forced to sit still during emotional distress.',
+      'Accumulation of unexpressed emotions.',
+      'Feeling confined or restricted.',
+      'After an argument or confrontation.',
+      'Processing difficult news.',
+    ],
+    intensityDescriptors: {
+      low: 'Mild restlessness that\'s easily managed.',
+      medium: 'Significant physical agitation during stress.',
+      high: 'Intense physical distress; inability to be still.',
+    },
+    defaultAvatar: 'zap', defaultAccentColor: 'hsl(30, 90%, 50%)', defaultManifestationMode: 'Interoceptive',
+  },
+  {
+    id: 'ff-painseeker', name: 'Pain-Seeker', type: 'Firefighter',
+    description: 'Seeks out emotional or physical pain as a coping mechanism.',
+    screeningQuestions: [
+      'I sometimes gravitate toward situations I know will hurt.',
+      'I replay painful memories deliberately.',
+      'I feel drawn to sad music, movies, or stories when I\'m down.',
+      'I sometimes feel I deserve to suffer.',
+      'Emotional pain feels more familiar than peace.',
+    ],
+    triggerStatements: [
+      'Moments of unexpected happiness or peace.',
+      'Feeling undeserving of good things.',
+      'Guilt about past actions.',
+      'Periods of emotional numbness.',
+      'Seeing others in pain.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasional pull toward melancholy.',
+      medium: 'Regularly seeks out painful experiences.',
+      high: 'Persistent pattern of self-punishment through pain.',
+    },
+    defaultAvatar: 'cloud-rain', defaultAccentColor: 'hsl(30, 90%, 50%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'ff-sensationchaser', name: 'Sensation-Chaser', type: 'Firefighter',
+    description: 'Seeks intense physical sensations to override emotional pain.',
+    screeningQuestions: [
+      'I seek intense experiences to feel alive.',
+      'I crave adrenaline or excitement.',
+      'I engage in risky activities for the rush.',
+      'Normal life feels dull compared to intense moments.',
+      'I need stronger and stronger stimulation to feel satisfied.',
+    ],
+    triggerStatements: [
+      'Boredom or monotony.',
+      'Emotional numbness.',
+      'Feeling dead inside.',
+      'Periods of depression or flatness.',
+      'Needing to prove I\'m alive or capable.',
+    ],
+    intensityDescriptors: {
+      low: 'Enjoys excitement but doesn\'t need it.',
+      medium: 'Regularly seeks intense experiences to feel alive.',
+      high: 'Compulsive need for intensity; dangerous risk-taking.',
+    },
+    defaultAvatar: 'sparkles', defaultAccentColor: 'hsl(30, 90%, 50%)', defaultManifestationMode: 'Impulse',
+  },
+  {
+    id: 'ff-substanceuser', name: 'Substance User', type: 'Firefighter',
+    description: 'Uses substances to numb, escape, or manage overwhelming feelings.',
+    screeningQuestions: [
+      'I use alcohol, drugs, or other substances to cope with emotions.',
+      'I reach for a drink or substance when I\'m stressed.',
+      'I use more of a substance than I intended.',
+      'I feel I need substances to relax or have fun.',
+      'I\'ve tried to cut back on substances but find it difficult.',
+    ],
+    triggerStatements: [
+      'End of a stressful day.',
+      'Social pressure or anxiety.',
+      'Intense emotional pain.',
+      'Feeling overwhelmed by responsibilities.',
+      'Loneliness or isolation.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasional use that feels manageable.',
+      medium: 'Regular reliance on substances; concern about usage.',
+      high: 'Dependent use; significant life impact.',
+    },
+    defaultAvatar: 'wine', defaultAccentColor: 'hsl(30, 90%, 50%)', defaultManifestationMode: 'Impulse',
+  },
+  {
+    id: 'ff-bingeeater', name: 'Binge Eater', type: 'Firefighter',
+    description: 'Uses food to soothe, numb, or comfort overwhelming emotions.',
+    screeningQuestions: [
+      'I eat large amounts of food when I\'m not hungry.',
+      'I use food to comfort myself when upset.',
+      'I feel out of control around food sometimes.',
+      'I eat in secret or feel shame about how much I eat.',
+      'I turn to food when I can\'t handle my emotions.',
+    ],
+    triggerStatements: [
+      'Feeling emotionally overwhelmed.',
+      'Loneliness or boredom.',
+      'After a stressful event.',
+      'Feeling restriction or deprivation.',
+      'Self-criticism or shame.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasional emotional eating.',
+      medium: 'Regular binge episodes; guilt cycle.',
+      high: 'Frequent, severe binge episodes; significant distress.',
+    },
+    defaultAvatar: 'utensils', defaultAccentColor: 'hsl(30, 90%, 50%)', defaultManifestationMode: 'Impulse',
+  },
+  {
+    id: 'ff-selfharmer', name: 'Self-Harmer', type: 'Firefighter',
+    description: 'Uses physical pain to manage or release overwhelming emotional pain.',
+    screeningQuestions: [
+      'I have urges to hurt myself physically when emotionally overwhelmed.',
+      'I\'ve engaged in self-harm to cope with feelings.',
+      'Physical pain sometimes feels like a relief from emotional pain.',
+      'I punish myself physically when I feel I\'ve failed.',
+      'I feel drawn to self-destructive behaviors.',
+    ],
+    triggerStatements: [
+      'Feeling completely overwhelmed emotionally.',
+      'Intense self-hatred or shame.',
+      'Feeling numb and needing to feel something.',
+      'After experiencing rejection or abandonment.',
+      'Feeling like a burden to others.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasional urges that are resisted.',
+      medium: 'Regular urges with some acting on them.',
+      high: 'Frequent self-harm behaviors; significant concern.',
+    },
+    defaultAvatar: 'shield-alert', defaultAccentColor: 'hsl(30, 90%, 50%)', defaultManifestationMode: 'Impulse',
+  },
+  {
+    id: 'ff-thrillseeker', name: 'Thrill-Seeker', type: 'Firefighter',
+    description: 'Chases excitement and risk to escape emotional pain.',
+    screeningQuestions: [
+      'I seek out dangerous or risky activities.',
+      'I make impulsive decisions for the thrill.',
+      'I drive too fast or take unnecessary physical risks.',
+      'I feel most alive when doing something dangerous.',
+      'I get bored easily and need constant excitement.',
+    ],
+    triggerStatements: [
+      'Extended periods of routine or calm.',
+      'Feeling emotionally dead or numb.',
+      'Suppressed anger or frustration.',
+      'Need to prove courage or capability.',
+      'Avoiding difficult emotional processing.',
+    ],
+    intensityDescriptors: {
+      low: 'Enjoys adventure within reasonable limits.',
+      medium: 'Regularly takes risks that concern others.',
+      high: 'Dangerous risk-taking; life-threatening behaviors.',
+    },
+    defaultAvatar: 'rocket', defaultAccentColor: 'hsl(30, 90%, 50%)', defaultManifestationMode: 'Impulse',
+  },
+  {
+    id: 'ff-oversleeper', name: 'Oversleeper', type: 'Firefighter',
+    description: 'Uses excessive sleep to escape from overwhelming feelings.',
+    screeningQuestions: [
+      'I sleep much more than I need to when I\'m stressed.',
+      'I use sleep to avoid dealing with problems.',
+      'I struggle to get out of bed when facing difficulties.',
+      'I nap excessively to escape my feelings.',
+      'Sleep feels like the only safe place when I\'m overwhelmed.',
+    ],
+    triggerStatements: [
+      'Facing a day full of demands.',
+      'Feeling hopeless or depressed.',
+      'After emotional confrontation.',
+      'Overwhelming responsibilities.',
+      'Feeling like nothing matters.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasionally sleeps in to avoid stress.',
+      medium: 'Regularly oversleeps; impacts daily functioning.',
+      high: 'Excessive sleeping; unable to engage with life.',
+    },
+    defaultAvatar: 'moon', defaultAccentColor: 'hsl(30, 90%, 50%)', defaultManifestationMode: 'Interoceptive',
+  },
+  {
+    id: 'ff-overworker', name: 'Overworker', type: 'Firefighter',
+    description: 'Buries emotions in work to avoid feeling them.',
+    screeningQuestions: [
+      'I work excessively to avoid thinking about personal problems.',
+      'I feel uncomfortable when I\'m not being productive.',
+      'I use work to escape from emotional pain.',
+      'I define my worth by my productivity.',
+      'I work through meals, weekends, and time off.',
+    ],
+    triggerStatements: [
+      'Quiet moments with nothing to do.',
+      'Relationship difficulties.',
+      'Feeling emotional pain surfacing.',
+      'Weekends or vacations without structure.',
+      'Being alone with thoughts and feelings.',
+    ],
+    intensityDescriptors: {
+      low: 'Works hard but maintains balance.',
+      medium: 'Regularly overworks; relationships suffer.',
+      high: 'Complete workaholism; burnout; no personal life.',
+    },
+    defaultAvatar: 'briefcase', defaultAccentColor: 'hsl(30, 90%, 50%)', defaultManifestationMode: 'Impulse',
+  },
+  {
+    id: 'ff-compulsivebuyer', name: 'Compulsive Buyer', type: 'Firefighter',
+    description: 'Uses shopping and spending to temporarily soothe emotional pain.',
+    screeningQuestions: [
+      'I shop or spend money to feel better emotionally.',
+      'I buy things I don\'t need when I\'m upset.',
+      'Shopping gives me a temporary high.',
+      'I feel guilty about my spending habits.',
+      'I use purchasing as a way to cope with stress.',
+    ],
+    triggerStatements: [
+      'Feeling empty or unfulfilled.',
+      'After a bad day or argument.',
+      'Boredom or loneliness.',
+      'Seeing something that promises to make me feel better.',
+      'Stress or anxiety.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasional retail therapy.',
+      medium: 'Regular stress spending; financial concern.',
+      high: 'Compulsive spending; significant debt or financial distress.',
+    },
+    defaultAvatar: 'shopping-cart', defaultAccentColor: 'hsl(30, 90%, 50%)', defaultManifestationMode: 'Impulse',
+  },
+];
+
+// ─── EXILES (14) ───
+const exiles: AssessmentPart[] = [
+  {
+    id: 'ex-abandoned', name: 'Abandoned One', type: 'Exile',
+    description: 'Carries the deep wound of being left or forsaken.',
+    screeningQuestions: [
+      'I have a deep fear of being abandoned.',
+      'I panic when someone important seems to be pulling away.',
+      'I\'ve felt fundamentally alone even in relationships.',
+      'I cling to connections out of fear of losing them.',
+      'Past experiences of abandonment still affect me today.',
+    ],
+    triggerStatements: [
+      'A partner or friend being distant or unavailable.',
+      'Being left out of plans or gatherings.',
+      'Someone canceling plans with me.',
+      'Endings of relationships or phases of life.',
+      'Silence or lack of communication from loved ones.',
+    ],
+    intensityDescriptors: {
+      low: 'Mild discomfort with separation; manageable.',
+      medium: 'Significant anxiety about abandonment; clingy behaviors.',
+      high: 'Overwhelming terror of being left; desperate attachment.',
+    },
+    defaultAvatar: 'heart-crack', defaultAccentColor: 'hsl(270, 50%, 60%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'ex-rejected', name: 'Rejected One', type: 'Exile',
+    description: 'Holds the pain of being turned away or excluded.',
+    screeningQuestions: [
+      'I\'m very sensitive to signs of rejection.',
+      'I avoid putting myself out there to prevent rejection.',
+      'Even small rejections feel devastating.',
+      'I replay moments of rejection over and over.',
+      'I expect to be rejected and look for signs of it.',
+    ],
+    triggerStatements: [
+      'Not being invited or included.',
+      'Someone saying no to a request.',
+      'Perceived criticism or disapproval.',
+      'Being overlooked for an opportunity.',
+      'Romantic or social rejection.',
+    ],
+    intensityDescriptors: {
+      low: 'Mild sting from rejection; bounces back quickly.',
+      medium: 'Rejection causes significant pain; avoids risks.',
+      high: 'Devastated by any rejection; avoids all vulnerability.',
+    },
+    defaultAvatar: 'user-x', defaultAccentColor: 'hsl(270, 50%, 60%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'ex-worthless', name: 'Worthless One', type: 'Exile',
+    description: 'Believes at a core level that they have no value.',
+    screeningQuestions: [
+      'I sometimes feel fundamentally worthless.',
+      'I believe others are more deserving than me.',
+      'I feel like I don\'t matter.',
+      'I question whether anyone would notice if I disappeared.',
+      'I feel like a burden to the people around me.',
+    ],
+    triggerStatements: [
+      'Failing at something important.',
+      'Being overlooked or ignored.',
+      'Comparing myself to successful people.',
+      'Making a mistake that affects others.',
+      'Feeling unproductive or useless.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasional feelings of low self-worth.',
+      medium: 'Frequent feelings of worthlessness; impacts self-esteem.',
+      high: 'Pervasive belief in own worthlessness; deep despair.',
+    },
+    defaultAvatar: 'circle-off', defaultAccentColor: 'hsl(270, 50%, 60%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'ex-shamed', name: 'Shamed One', type: 'Exile',
+    description: 'Carries deep shame about who they are at the core.',
+    screeningQuestions: [
+      'I feel deeply ashamed of who I am.',
+      'I believe there\'s something fundamentally wrong with me.',
+      'I hide parts of myself because I\'m ashamed of them.',
+      'Shame stops me from being authentic.',
+      'I carry shame about things that happened to me.',
+    ],
+    triggerStatements: [
+      'Being seen or exposed unexpectedly.',
+      'Making a social mistake.',
+      'Being reminded of past shameful events.',
+      'Others knowing my secrets.',
+      'Vulnerability or intimacy.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasional shame that can be processed.',
+      medium: 'Persistent shame that limits authenticity.',
+      high: 'Crushing, pervasive shame; deep hiding.',
+    },
+    defaultAvatar: 'eye-off', defaultAccentColor: 'hsl(270, 50%, 60%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'ex-unlovable', name: 'Unlovable One', type: 'Exile',
+    description: 'Believes they are inherently unworthy of love.',
+    screeningQuestions: [
+      'I believe I\'m not truly lovable.',
+      'I don\'t understand why anyone would love the real me.',
+      'I feel like I have to earn love through performance.',
+      'I push people away before they can reject me.',
+      'I don\'t believe love is unconditional.',
+    ],
+    triggerStatements: [
+      'Someone expressing love or affection.',
+      'Witnessing loving relationships.',
+      'Being alone on significant occasions.',
+      'Relationship difficulties or breakups.',
+      'Feeling seen for who I really am.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasional doubts about being loved.',
+      medium: 'Regular belief of being unlovable; sabotages relationships.',
+      high: 'Deep conviction of being unlovable; isolates completely.',
+    },
+    defaultAvatar: 'heart-off', defaultAccentColor: 'hsl(270, 50%, 60%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'ex-helpless', name: 'Helpless One', type: 'Exile',
+    description: 'Feels unable to cope or take care of themselves.',
+    screeningQuestions: [
+      'I sometimes feel completely helpless.',
+      'I feel like I can\'t handle things on my own.',
+      'I freeze when facing challenges.',
+      'I feel small and incapable when stressed.',
+      'I need others to rescue me from difficult situations.',
+    ],
+    triggerStatements: [
+      'Facing a problem that feels too big.',
+      'Being alone during a crisis.',
+      'Having no support available.',
+      'Feeling overwhelmed by adult responsibilities.',
+      'Encountering authority or power dynamics.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasionally feels overwhelmed but manages.',
+      medium: 'Frequently feels helpless; relies heavily on others.',
+      high: 'Pervasive helplessness; unable to function independently.',
+    },
+    defaultAvatar: 'hand', defaultAccentColor: 'hsl(270, 50%, 60%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'ex-powerless', name: 'Powerless One', type: 'Exile',
+    description: 'Feels they have no agency or control over their life.',
+    screeningQuestions: [
+      'I feel powerless to change my situation.',
+      'I believe I have no control over what happens to me.',
+      'I feel like a victim of circumstances.',
+      'I freeze or shut down in conflict.',
+      'I feel like my voice doesn\'t matter.',
+    ],
+    triggerStatements: [
+      'Being in situations where I have no authority.',
+      'Others making decisions for me.',
+      'Systemic or institutional barriers.',
+      'Feeling silenced or dismissed.',
+      'Reliving past experiences of powerlessness.',
+    ],
+    intensityDescriptors: {
+      low: 'Sometimes feels powerless but can take action.',
+      medium: 'Frequently feels powerless; passive in life.',
+      high: 'Complete learned helplessness; gives up easily.',
+    },
+    defaultAvatar: 'lock', defaultAccentColor: 'hsl(270, 50%, 60%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'ex-invisible', name: 'Invisible One', type: 'Exile',
+    description: 'Feels unseen, unnoticed, and like they don\'t exist.',
+    screeningQuestions: [
+      'I feel invisible to the people around me.',
+      'I struggle to be noticed or heard in groups.',
+      'I feel like I don\'t leave an impression on people.',
+      'I fade into the background in social situations.',
+      'I sometimes wonder if I exist to other people.',
+    ],
+    triggerStatements: [
+      'Being overlooked in a group conversation.',
+      'Not being acknowledged for contributions.',
+      'People forgetting my name or details about me.',
+      'Being physically alone for long periods.',
+      'Seeing others get attention I wish I received.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasionally feels overlooked.',
+      medium: 'Frequently feels invisible; craves recognition.',
+      high: 'Profound sense of non-existence; existential pain.',
+    },
+    defaultAvatar: 'ghost', defaultAccentColor: 'hsl(270, 50%, 60%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'ex-defective', name: 'Defective One', type: 'Exile',
+    description: 'Believes they are fundamentally broken or flawed.',
+    screeningQuestions: [
+      'I feel like there\'s something broken inside me.',
+      'I believe I\'m fundamentally different from "normal" people.',
+      'I feel defective compared to others.',
+      'I try to hide what I see as my brokenness.',
+      'I believe my flaws are unfixable.',
+    ],
+    triggerStatements: [
+      'Others seeming to function effortlessly.',
+      'Struggling with something others find easy.',
+      'Therapy or self-help discussions.',
+      'Being diagnosed or labeled.',
+      'Intimate relationships where my flaws might show.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasional feeling of being different.',
+      medium: 'Persistent belief of being flawed; compensating behaviors.',
+      high: 'Deep conviction of being fundamentally broken.',
+    },
+    defaultAvatar: 'puzzle', defaultAccentColor: 'hsl(270, 50%, 60%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'ex-terrified', name: 'Terrified One', type: 'Exile',
+    description: 'Holds overwhelming fear from past experiences.',
+    screeningQuestions: [
+      'I carry a deep, underlying fear that something terrible will happen.',
+      'I feel terrified in situations that others find normal.',
+      'I have fears that seem irrational but feel very real.',
+      'I sometimes feel frozen with terror.',
+      'My fear feels ancient — like it\'s been there forever.',
+    ],
+    triggerStatements: [
+      'Situations that echo past traumatic events.',
+      'Feeling unsafe physically or emotionally.',
+      'Darkness, loud noises, or sudden changes.',
+      'Conflict or aggression from others.',
+      'Being caught off guard.',
+    ],
+    intensityDescriptors: {
+      low: 'Manageable underlying anxiety.',
+      medium: 'Significant fear that limits activities.',
+      high: 'Overwhelming terror; frequent freeze responses.',
+    },
+    defaultAvatar: 'alert-circle', defaultAccentColor: 'hsl(270, 50%, 60%)', defaultManifestationMode: 'Interoceptive',
+  },
+  {
+    id: 'ex-lonely', name: 'Lonely One', type: 'Exile',
+    description: 'Carries a profound sense of isolation and disconnection.',
+    screeningQuestions: [
+      'I feel deeply lonely even when surrounded by people.',
+      'I feel disconnected from others at a fundamental level.',
+      'I long for connection but don\'t know how to achieve it.',
+      'I feel like nobody truly understands me.',
+      'My loneliness feels like an ache in my chest.',
+    ],
+    triggerStatements: [
+      'Being alone on holidays or weekends.',
+      'Seeing close friend groups.',
+      'Moving to a new place.',
+      'Ending of a significant relationship.',
+      'Feeling misunderstood after sharing something personal.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasional loneliness that passes.',
+      medium: 'Frequent loneliness; difficulty forming connections.',
+      high: 'Profound, chronic isolation; existential loneliness.',
+    },
+    defaultAvatar: 'user', defaultAccentColor: 'hsl(270, 50%, 60%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'ex-humiliated', name: 'Humiliated One', type: 'Exile',
+    description: 'Holds memories and feelings of being humiliated or degraded.',
+    screeningQuestions: [
+      'I vividly remember times I was humiliated.',
+      'I avoid situations where I might be embarrassed.',
+      'The memory of being humiliated still stings.',
+      'I\'m hypersensitive to being laughed at.',
+      'I change my behavior to avoid potential humiliation.',
+    ],
+    triggerStatements: [
+      'Public speaking or being the center of attention.',
+      'Making a mistake in front of others.',
+      'Being teased or joked about.',
+      'Situations similar to past humiliation.',
+      'Authority figures criticizing me publicly.',
+    ],
+    intensityDescriptors: {
+      low: 'Mild embarrassment sensitivity.',
+      medium: 'Avoids many situations due to humiliation fear.',
+      high: 'Severely limited by fear of humiliation; social isolation.',
+    },
+    defaultAvatar: 'frown', defaultAccentColor: 'hsl(270, 50%, 60%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'ex-small', name: 'Small One', type: 'Exile',
+    description: 'Feels like a small child — young, vulnerable, and needing protection.',
+    screeningQuestions: [
+      'Part of me still feels like a scared little kid.',
+      'I sometimes feel much younger than my actual age.',
+      'I want someone to take care of me and make it all better.',
+      'I feel small and vulnerable in the face of the world.',
+      'I long for the safety and comfort I needed as a child.',
+    ],
+    triggerStatements: [
+      'Feeling overwhelmed by adult responsibilities.',
+      'Conflict with authority figures.',
+      'Being scolded or corrected.',
+      'Visiting childhood places or seeing old photos.',
+      'Needing comfort and not having it.',
+    ],
+    intensityDescriptors: {
+      low: 'Occasionally feels young or small inside.',
+      medium: 'Frequently regresses to childlike feelings.',
+      high: 'Often trapped in a childlike state; can\'t access adult self.',
+    },
+    defaultAvatar: 'baby', defaultAccentColor: 'hsl(270, 50%, 60%)', defaultManifestationMode: 'Emotional',
+  },
+  {
+    id: 'ex-hiding', name: 'Hiding One', type: 'Exile',
+    description: 'Stays hidden to protect from further pain or exposure.',
+    screeningQuestions: [
+      'I hide my true self from others.',
+      'I feel safest when no one really sees me.',
+      'I keep my deepest feelings locked away.',
+      'I avoid being truly known by anyone.',
+      'Part of me wants to disappear completely.',
+    ],
+    triggerStatements: [
+      'Someone trying to get emotionally close.',
+      'Being asked personal questions.',
+      'Intimate or vulnerable moments.',
+      'Feeling exposed or seen.',
+      'Trust being required.',
+    ],
+    intensityDescriptors: {
+      low: 'Somewhat guarded; can open up slowly.',
+      medium: 'Significantly hidden; few people know the real me.',
+      high: 'Completely concealed; profound isolation from authenticity.',
+    },
+    defaultAvatar: 'door-closed', defaultAccentColor: 'hsl(270, 50%, 60%)', defaultManifestationMode: 'Emotional',
+  },
+];
+
+export const allAssessmentParts: AssessmentPart[] = [...managers, ...firefighters, ...exiles];
+
+export const managerParts = managers;
+export const firefighterParts = firefighters;
+export const exileParts = exiles;
+
+export const protectionStrategies = [
+  'Distraction / Avoidance',
+  'Numbing / Shutting down',
+  'Over-controlling the situation',
+  'People-pleasing',
+  'Perfectionism',
+  'Intellectualizing / Rationalizing',
+  'Anger / Intimidation',
+  'Withdrawal / Isolation',
+  'Humor / Deflection',
+  'Overworking / Staying busy',
+  'Self-criticism / Punishment',
+  'Caretaking others',
+];
+
+export const selfQualities = [
+  'Calm', 'Curious', 'Compassionate', 'Clear',
+  'Confident', 'Creative', 'Courageous', 'Connected',
+] as const;
+
+export const lifeContexts = [
+  'Work', 'Relationships', 'Home/Family', 'Social Settings', 'Personal/Private',
+] as const;
+
+export const durationOptions = [
+  'Minutes', 'Hours', 'A day', 'Several days', 'A week or more',
+] as const;
+
+export const recoveryOptions = [
+  'Minutes', 'Hours', 'A day', 'Several days', 'A week or more',
+] as const;
