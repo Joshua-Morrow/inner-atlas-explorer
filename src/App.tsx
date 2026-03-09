@@ -13,6 +13,7 @@ import Update from "./pages/Update";
 import Assessment from "./pages/Assessment";
 import Elaboration from "./pages/Elaboration";
 import Trailhead from "./pages/Trailhead";
+import SelfEnergy from "./pages/SelfEnergy";
 import NotFound from "./pages/NotFound";
 import { useAssessmentStore } from "./lib/assessmentStore";
 
