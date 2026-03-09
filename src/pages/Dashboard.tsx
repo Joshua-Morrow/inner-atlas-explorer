@@ -1,9 +1,11 @@
 import { useStore } from "@/lib/store";
+import { useJourneyStore, MILESTONES } from "@/lib/journeyStore";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, MessageCircle, Map, Zap, Heart, Route } from "lucide-react";
+import { Plus, MessageCircle, Map, Zap, Heart, Route, Mountain } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Slider } from "@/components/ui/slider";
+import { format, differenceInDays } from "date-fns";
 
 export default function Dashboard() {
   const parts = useStore((state) => state.parts);
