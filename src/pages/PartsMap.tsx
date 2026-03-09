@@ -15,6 +15,7 @@ import '@xyflow/react/dist/style.css';
 import { useStore } from '@/lib/store';
 import { useElaborationStore } from '@/lib/elaborationStore';
 import { useSelfEnergyStore } from '@/lib/selfEnergyStore';
+import { useRefineStore } from '@/lib/refineStore';
 
 export default function PartsMap() {
   const parts = useStore((state) => state.parts);
