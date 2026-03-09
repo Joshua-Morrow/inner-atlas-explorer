@@ -20,6 +20,7 @@ const items = [
   { title: "Inner Dialogue", url: "/dialogue", icon: MessageCircle },
   { title: "Update", url: "/update", icon: Zap },
   { title: "DataLinks", url: "/datalinks", icon: Book },
+  { title: "Assessment", url: "/assessment", icon: ClipboardCheck },
 ]
 
 export function AppSidebar() {
