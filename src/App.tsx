@@ -46,6 +46,7 @@ const App = () => (
             <Route path="update" element={<Update />} />
             <Route path="elaborate/:partId" element={<Elaboration />} />
             <Route path="trailhead" element={<Trailhead />} />
+            <Route path="self-energy" element={<SelfEnergy />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
