@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router-dom"
-import { Home, Grid, Map as MapIcon, MessageCircle, Zap, Book, ClipboardCheck, Shield, Sparkles, Route, Sun } from "lucide-react"
+import { Home, Grid, Map as MapIcon, MessageCircle, Zap, Book, ClipboardCheck, Shield, Sparkles, Route, Sun, Diamond, PenLine } from "lucide-react"
 import { useStore } from "@/lib/store"
 import { useElaborationStore } from "@/lib/elaborationStore"
 import { useTrailheadStore } from "@/lib/trailheadStore"
+import { useRefineStore } from "@/lib/refineStore"
 
 import {
   Sidebar,
