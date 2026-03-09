@@ -28,6 +28,7 @@ const items = [
   { title: "Update", url: "/update", icon: Zap },
   { title: "DataLinks", url: "/datalinks", icon: Book },
   { title: "Assessment", url: "/assessment", icon: ClipboardCheck },
+  { title: "Couples", url: "/couples", icon: Heart },
 ]
 
 export function AppSidebar() {
