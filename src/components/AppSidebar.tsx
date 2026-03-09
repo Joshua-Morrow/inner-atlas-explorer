@@ -31,6 +31,7 @@ const items = [
   { title: "Couples", url: "/couples", icon: Heart },
   { title: "Clarity", url: "/clarity", icon: Compass },
   { title: "Body Map", url: "/body-map", icon: PersonStanding },
+  { title: "Practices", url: "/practices", icon: Leaf },
 ]
 
 export function AppSidebar() {

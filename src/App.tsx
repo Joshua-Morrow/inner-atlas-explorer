@@ -56,6 +56,7 @@ const App = () => (
             <Route path="couples" element={<CouplesConnection />} />
             <Route path="clarity" element={<Clarity />} />
             <Route path="body-map" element={<BodyMap />} />
+            <Route path="practices" element={<Practices />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
