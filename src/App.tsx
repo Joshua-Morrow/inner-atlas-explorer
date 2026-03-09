@@ -44,6 +44,7 @@ const App = () => (
             <Route path="datalinks" element={<DataLinks />} />
             <Route path="update" element={<Update />} />
             <Route path="elaborate/:partId" element={<Elaboration />} />
+            <Route path="trailhead" element={<Trailhead />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

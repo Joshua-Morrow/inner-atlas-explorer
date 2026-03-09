@@ -82,7 +82,7 @@ export default function Dashboard() {
 
       {/* Quick Actions */}
       <h2 className="text-xl font-semibold mt-8 mb-4">Quick Actions</h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <Button variant="outline" className="h-24 flex-col gap-2 bg-card hover:bg-secondary border-dashed" asChild>
           <Link to="/inventory">
             <Plus className="h-6 w-6 text-primary" />
@@ -93,6 +93,12 @@ export default function Dashboard() {
           <Link to="/dialogue">
             <MessageCircle className="h-6 w-6 text-primary" />
             <span>New Dialogue</span>
+          </Link>
+        </Button>
+        <Button variant="outline" className="h-24 flex-col gap-2 bg-card hover:bg-secondary border-dashed" asChild>
+          <Link to="/trailhead">
+            <Route className="h-6 w-6 text-primary" />
+            <span>Start a Trailhead</span>
           </Link>
         </Button>
         <Button variant="outline" className="h-24 flex-col gap-2 bg-card hover:bg-secondary border-dashed" asChild>
