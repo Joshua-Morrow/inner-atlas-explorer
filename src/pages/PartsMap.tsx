@@ -25,46 +25,77 @@ export default function PartsMap() {
   const latestCheckIn = getLatestCheckIn();
   const blendedIds = getRecentBlendedPartIds();
   
-  // Transform parts into nodes
-  const initialNodes: Node[] = parts.map((part, index) => {
-    let shapeClass = "rounded-md"; // Default / Manager
-    if (part.type === 'Firefighter') shapeClass = "rounded-none"; // Jagged approx
-    if (part.type === 'Exile') shapeClass = "rounded-full"; // Soft circle
-    if (part.type === 'Self') shapeClass = "rounded-full ring-4 ring-offset-2"; // Radiant
+  // Position map — Self centered, others around
+  const positionMap: Record<string, { x: number; y: number }> = {
+    p5: { x: 400, y: 250 },
+    p1: { x: 150, y: 120 },
+    p4: { x: 650, y: 120 },
+    p2: { x: 150, y: 380 },
+    p3: { x: 650, y: 380 },
+  };
 
+  // Shape: Manager=rounded-lg, Firefighter=starburst clip, Exile=rounded-full, Self=octagon clip
+  const shapeStyle = (type: string): React.CSSProperties => {
+    if (type === 'Self') return { clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' };
+    if (type === 'Firefighter') return { clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)' };
+    return {};
+  };
+  const shapeClass = (type: string) => {
+    if (type === 'Exile') return 'rounded-full';
+    if (type === 'Manager') return 'rounded-lg';
+    return '';
+  };
+
+  const initialNodes: Node[] = parts.map((part, index) => {
     const elaborated = isPartElaborated(part.id);
     const isBlended = blendedIds.includes(part.id);
     const refined = getRefinementLevel(part.id) !== 'none';
+    const pos = positionMap[part.id] || { x: 250 + index * 150, y: 200 };
 
     return {
       id: part.id,
-      position: { x: 250 + (index * 150), y: 200 + (index % 2 === 0 ? 50 : -50) },
-      data: { 
+      position: pos,
+      data: {
         label: (
-          <div className={`p-3 text-center border-2 shadow-sm bg-card ${shapeClass} relative`}
-               style={{ borderColor: part.accentColor, boxShadow: elaborated ? `0 0 12px 2px ${part.accentColor}60` : refined ? `0 0 10px 2px ${part.accentColor}40` : isBlended ? `0 0 10px 3px hsl(45, 90%, 50%, 0.4)` : undefined }}>
+          <div
+            className={`p-4 text-center border-2 shadow-sm bg-card relative ${shapeClass(part.type)}`}
+            style={{
+              borderColor: part.accentColor,
+              boxShadow: elaborated ? `0 0 12px 2px ${part.accentColor}60` : refined ? `0 0 10px 2px ${part.accentColor}40` : isBlended ? `0 0 10px 3px hsl(45, 90%, 50%, 0.4)` : undefined,
+              ...(part.type === 'Self' || part.type === 'Firefighter' ? shapeStyle(part.type) : {}),
+              minWidth: part.type === 'Self' ? 100 : 90,
+              minHeight: part.type === 'Self' ? 100 : undefined,
+              display: 'flex',
+              flexDirection: 'column' as const,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: part.type === 'Self' ? `${part.accentColor}18` : undefined,
+            }}
+          >
             {elaborated && (
               <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-primary" title="Elaborated">
                 <span className="text-[8px] text-primary-foreground flex items-center justify-center h-full">✦</span>
               </div>
             )}
-            {refined && !elaborated && (
-              <div className="absolute -top-1 -left-1 w-3 h-3 rounded-full bg-accent" title="Refined">
-                <span className="text-[8px] text-accent-foreground flex items-center justify-center h-full">◆</span>
-              </div>
-            )}
-            <div className="font-bold">{part.name}</div>
-            <div className="text-xs opacity-70">{part.type}</div>
+            <div className="font-bold text-sm">{part.name}</div>
+            <div className="text-[10px] opacity-70">{part.type}</div>
           </div>
-        )
+        ),
       },
-      style: { width: 120 }
+      style: { width: part.type === 'Self' ? 120 : 110 },
     };
   });
 
   const initialEdges: Edge[] = [
-    { id: 'e1-2', source: 'p1', target: 'p2', animated: true, style: { stroke: 'hsl(0, 84.2%, 60.2%)', strokeWidth: 2 } },
-    { id: 'e1-3', source: 'p1', target: 'p3', style: { stroke: 'hsl(214.3, 31.8%, 91.4%)', strokeWidth: 2 } },
+    { id: 'e1-3', source: 'p1', target: 'p3', label: 'protects', style: { stroke: 'hsl(230, 60%, 40%)', strokeWidth: 2 }, animated: true },
+    { id: 'e4-3', source: 'p4', target: 'p3', label: 'protects', style: { stroke: 'hsl(210, 50%, 35%)', strokeWidth: 2 }, animated: true },
+    { id: 'e2-3', source: 'p2', target: 'p3', label: 'protects', style: { stroke: 'hsl(30, 90%, 50%)', strokeWidth: 2 }, animated: true },
+    { id: 'e1-4', source: 'p1', target: 'p4', label: 'allied', style: { stroke: 'hsl(140, 50%, 45%)', strokeWidth: 2 } },
+    { id: 'e1-2', source: 'p1', target: 'p2', label: 'tension', style: { stroke: 'hsl(0, 84%, 60%)', strokeWidth: 2, strokeDasharray: '5,5' } },
+    { id: 'e5-1', source: 'p5', target: 'p1', style: { stroke: 'hsl(45, 90%, 50%)', strokeWidth: 1.5 } },
+    { id: 'e5-2', source: 'p5', target: 'p2', style: { stroke: 'hsl(45, 90%, 50%)', strokeWidth: 1.5 } },
+    { id: 'e5-3', source: 'p5', target: 'p3', style: { stroke: 'hsl(45, 90%, 50%)', strokeWidth: 1.5 } },
+    { id: 'e5-4', source: 'p5', target: 'p4', style: { stroke: 'hsl(45, 90%, 50%)', strokeWidth: 1.5 } },
   ];
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);

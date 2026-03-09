@@ -55,12 +55,12 @@ export default function PartsInventory() {
                 </div>
               )}
               <CardHeader className="pb-2 flex flex-row items-start justify-between">
-                <div>
+                <Link to={`/part/${part.id}`} className="hover:underline">
                   <h3 className="text-lg font-semibold">{part.name}</h3>
                   <Badge variant="outline" className={`mt-1 ${typeColors[part.type]}`}>
                     {part.type}
                   </Badge>
-                </div>
+                </Link>
                 <div
                   className="w-10 h-10 rounded-full flex items-center justify-center opacity-80"
                   style={{ backgroundColor: `${part.accentColor}20`, color: part.accentColor }}
