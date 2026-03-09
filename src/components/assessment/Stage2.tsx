@@ -6,8 +6,22 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
-import { useAssessmentStore } from '@/lib/assessmentStore';
+import { useAssessmentStore, Stage2Answers } from '@/lib/assessmentStore';
 import { lifeContexts, durationOptions, recoveryOptions } from '@/lib/assessmentData';
+
+const defaultAnswers: Stage2Answers[string] = {
+  triggers: [0, 0, 0, 0, 0],
+  manifestations: { cognitive: 0, emotional: 0, interoceptive: 0, behavioral: 0 },
+  intensity: 'Medium',
+  lifeContexts: {},
+  somaticLocation: '',
+  bodyPoints: [],
+  duration: '',
+  recovery: '',
+  historicalOrigins: '',
+  partPerspective: '',
+  personalNotes: '',
+};
 
 const scaleLabels = ['Never', 'Rarely', 'Sometimes', 'Often', 'Very Frequently'];
 
