@@ -32,6 +32,7 @@ const items = [
   { title: "Clarity", url: "/clarity", icon: Compass },
   { title: "Body Map", url: "/body-map", icon: PersonStanding },
   { title: "Practices", url: "/practices", icon: Leaf },
+  { title: "My Journey", url: "/journey", icon: Mountain },
 ]
 
 export function AppSidebar() {

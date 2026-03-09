@@ -92,6 +92,44 @@ export default function Dashboard() {
         </Card>
       </div>
 
+      {/* My Journey Widget */}
+      <Card className="border-primary/10">
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <Mountain className="h-5 w-5 text-primary" />
+            My Journey
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-4 text-sm">
+            <div>
+              <span className="text-2xl font-bold text-primary">{daysSinceStart}</span>
+              <p className="text-xs text-muted-foreground">days of inner work</p>
+            </div>
+            <div>
+              <span className="text-2xl font-bold text-primary">{earnedMilestones.length}</span>
+              <p className="text-xs text-muted-foreground">milestones earned</p>
+            </div>
+            <div className="flex-1 min-w-[150px]">
+              {lastMilestoneDef ? (
+                <p className="text-xs text-muted-foreground">
+                  Latest: <span className="font-medium text-foreground">{lastMilestoneDef.title}</span>
+                  {lastMilestone && <span className="ml-1">({format(new Date(lastMilestone.earnedAt), 'MMM d')})</span>}
+                </p>
+              ) : (
+                <p className="text-xs text-muted-foreground">Complete activities to earn milestones.</p>
+              )}
+              <p className="text-xs text-muted-foreground mt-1">
+                You have {parts.length} parts in your system with {dialogues.length} recorded dialogues.
+              </p>
+            </div>
+          </div>
+          <Button variant="outline" size="sm" className="mt-3" asChild>
+            <Link to="/journey">View Full Journey →</Link>
+          </Button>
+        </CardContent>
+      </Card>
+
       {/* Quick Actions */}
       <h2 className="text-xl font-semibold mt-8 mb-4">Quick Actions</h2>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
