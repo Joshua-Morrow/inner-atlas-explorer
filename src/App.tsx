@@ -16,6 +16,7 @@ import Trailhead from "./pages/Trailhead";
 import SelfEnergy from "./pages/SelfEnergy";
 import Refine from "./pages/Refine";
 import CouplesConnection from "./pages/CouplesConnection";
+import Clarity from "./pages/Clarity";
 import NotFound from "./pages/NotFound";
 import { useAssessmentStore } from "./lib/assessmentStore";
 
@@ -51,6 +52,7 @@ const App = () => (
             <Route path="trailhead" element={<Trailhead />} />
             <Route path="self-energy" element={<SelfEnergy />} />
             <Route path="couples" element={<CouplesConnection />} />
+            <Route path="clarity" element={<Clarity />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

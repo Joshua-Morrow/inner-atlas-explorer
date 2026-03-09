@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom"
-import { Home, Grid, Map as MapIcon, MessageCircle, Zap, Book, ClipboardCheck, Shield, Sparkles, Route, Sun, Diamond, PenLine, Heart } from "lucide-react"
+import { Home, Grid, Map as MapIcon, MessageCircle, Zap, Book, ClipboardCheck, Shield, Sparkles, Route, Sun, Diamond, PenLine, Heart, Compass } from "lucide-react"
 import { useStore } from "@/lib/store"
 import { useElaborationStore } from "@/lib/elaborationStore"
 import { useTrailheadStore } from "@/lib/trailheadStore"
@@ -29,6 +29,7 @@ const items = [
   { title: "DataLinks", url: "/datalinks", icon: Book },
   { title: "Assessment", url: "/assessment", icon: ClipboardCheck },
   { title: "Couples", url: "/couples", icon: Heart },
+  { title: "Clarity", url: "/clarity", icon: Compass },
 ]
 
 export function AppSidebar() {
