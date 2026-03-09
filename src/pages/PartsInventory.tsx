@@ -1,8 +1,9 @@
 import { useStore, PartType } from "@/lib/store";
 import { useElaborationStore } from "@/lib/elaborationStore";
+import { useRefineStore } from "@/lib/refineStore";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Filter, ArrowUpDown, Sparkles } from "lucide-react";
+import { Plus, Filter, ArrowUpDown, Sparkles, PenLine, Diamond } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 
@@ -16,6 +17,7 @@ const typeColors: Record<PartType, string> = {
 export default function PartsInventory() {
   const parts = useStore((state) => state.parts);
   const { getPartElaborationProgress, isPartElaborated } = useElaborationStore();
+  const { getRefinementLevel } = useRefineStore();
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
@@ -83,6 +85,13 @@ export default function PartsInventory() {
                     <Link to={`/elaborate/${part.id}`}>
                       <Sparkles className="h-3 w-3" />
                       {progress > 0 ? `Elaborate (${progress}%)` : 'Elaborate'}
+                    </Link>
+                  </Button>
+                  <Button variant="outline" size="sm" asChild className="gap-1.5 text-xs">
+                    <Link to={`/refine/${part.id}`}>
+                      <PenLine className="h-3 w-3" />
+                      Refine
+                      {getRefinementLevel(part.id) !== 'none' && <Diamond className="h-2.5 w-2.5 ml-0.5 text-primary" />}
                     </Link>
                   </Button>
                 </div>

@@ -15,11 +15,13 @@ import '@xyflow/react/dist/style.css';
 import { useStore } from '@/lib/store';
 import { useElaborationStore } from '@/lib/elaborationStore';
 import { useSelfEnergyStore } from '@/lib/selfEnergyStore';
+import { useRefineStore } from '@/lib/refineStore';
 
 export default function PartsMap() {
   const parts = useStore((state) => state.parts);
   const { isPartElaborated } = useElaborationStore();
   const { getLatestCheckIn, getRecentBlendedPartIds } = useSelfEnergyStore();
+  const { getRefinementLevel } = useRefineStore();
   const latestCheckIn = getLatestCheckIn();
   const blendedIds = getRecentBlendedPartIds();
   
@@ -32,6 +34,7 @@ export default function PartsMap() {
 
     const elaborated = isPartElaborated(part.id);
     const isBlended = blendedIds.includes(part.id);
+    const refined = getRefinementLevel(part.id) !== 'none';
 
     return {
       id: part.id,
@@ -39,10 +42,15 @@ export default function PartsMap() {
       data: { 
         label: (
           <div className={`p-3 text-center border-2 shadow-sm bg-card ${shapeClass} relative`}
-               style={{ borderColor: part.accentColor, boxShadow: elaborated ? `0 0 12px 2px ${part.accentColor}60` : isBlended ? `0 0 10px 3px hsl(45, 90%, 50%, 0.4)` : undefined }}>
+               style={{ borderColor: part.accentColor, boxShadow: elaborated ? `0 0 12px 2px ${part.accentColor}60` : refined ? `0 0 10px 2px ${part.accentColor}40` : isBlended ? `0 0 10px 3px hsl(45, 90%, 50%, 0.4)` : undefined }}>
             {elaborated && (
               <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-primary" title="Elaborated">
                 <span className="text-[8px] text-primary-foreground flex items-center justify-center h-full">✦</span>
+              </div>
+            )}
+            {refined && !elaborated && (
+              <div className="absolute -top-1 -left-1 w-3 h-3 rounded-full bg-accent" title="Refined">
+                <span className="text-[8px] text-accent-foreground flex items-center justify-center h-full">◆</span>
               </div>
             )}
             <div className="font-bold">{part.name}</div>

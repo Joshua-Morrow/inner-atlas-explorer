@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router-dom"
-import { Home, Grid, Map as MapIcon, MessageCircle, Zap, Book, ClipboardCheck, Shield, Sparkles, Route, Sun } from "lucide-react"
+import { Home, Grid, Map as MapIcon, MessageCircle, Zap, Book, ClipboardCheck, Shield, Sparkles, Route, Sun, Diamond, PenLine } from "lucide-react"
 import { useStore } from "@/lib/store"
 import { useElaborationStore } from "@/lib/elaborationStore"
 import { useTrailheadStore } from "@/lib/trailheadStore"
+import { useRefineStore } from "@/lib/refineStore"
 
 import {
   Sidebar,
@@ -34,6 +35,7 @@ export function AppSidebar() {
   const parts = useStore((s) => s.parts)
   const { getPartElaborationProgress, isPartElaborated } = useElaborationStore()
   const trails = useTrailheadStore((s) => s.trails)
+  const { getRefinementLevel } = useRefineStore()
   const completedTrails = trails.filter((t) => t.status === 'completed')
   const pausedTrails = trails.filter((t) => t.status === 'paused')
 
@@ -96,6 +98,42 @@ export function AppSidebar() {
                               <div className="absolute inset-0 flex items-center justify-center">
                                 <Sparkles className="h-2.5 w-2.5 text-primary" />
                               </div>
+                            )}
+                          </div>
+                          <span className="truncate group-data-[collapsible=icon]:hidden">{part.name}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
+
+        {/* Refine section */}
+        {parts.length > 0 && (
+          <SidebarGroup>
+            <SidebarGroupLabel>
+              <PenLine className="h-3.5 w-3.5 mr-1.5 inline" />
+              Refine
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {parts.map((part) => {
+                  const level = getRefinementLevel(part.id)
+                  const isActive = location.pathname === `/refine/${part.id}`
+                  return (
+                    <SidebarMenuItem key={part.id}>
+                      <SidebarMenuButton asChild isActive={isActive} tooltip={`${part.name} — ${level}`}>
+                        <Link to={`/refine/${part.id}`} className="flex items-center gap-2">
+                          <div className="relative w-4 h-4 flex-shrink-0 flex items-center justify-center">
+                            {level === 'full' ? (
+                              <Diamond className="h-3.5 w-3.5 text-primary fill-primary" />
+                            ) : level === 'partial' ? (
+                              <Diamond className="h-3.5 w-3.5 text-primary/60" style={{ clipPath: 'inset(50% 0 0 0)' }} />
+                            ) : (
+                              <Diamond className="h-3.5 w-3.5 text-muted-foreground/40" />
                             )}
                           </div>
                           <span className="truncate group-data-[collapsible=icon]:hidden">{part.name}</span>

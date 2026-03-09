@@ -14,6 +14,7 @@ import Assessment from "./pages/Assessment";
 import Elaboration from "./pages/Elaboration";
 import Trailhead from "./pages/Trailhead";
 import SelfEnergy from "./pages/SelfEnergy";
+import Refine from "./pages/Refine";
 import NotFound from "./pages/NotFound";
 import { useAssessmentStore } from "./lib/assessmentStore";
 
@@ -45,6 +46,7 @@ const App = () => (
             <Route path="datalinks" element={<DataLinks />} />
             <Route path="update" element={<Update />} />
             <Route path="elaborate/:partId" element={<Elaboration />} />
+            <Route path="refine/:partId" element={<Refine />} />
             <Route path="trailhead" element={<Trailhead />} />
             <Route path="self-energy" element={<SelfEnergy />} />
             <Route path="*" element={<NotFound />} />
