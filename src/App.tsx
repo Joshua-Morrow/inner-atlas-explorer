@@ -12,6 +12,7 @@ import DataLinks from "./pages/DataLinks";
 import Update from "./pages/Update";
 import Assessment from "./pages/Assessment";
 import Elaboration from "./pages/Elaboration";
+import Trailhead from "./pages/Trailhead";
 import NotFound from "./pages/NotFound";
 import { useAssessmentStore } from "./lib/assessmentStore";
 
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="datalinks" element={<DataLinks />} />
             <Route path="update" element={<Update />} />
             <Route path="elaborate/:partId" element={<Elaboration />} />
+            <Route path="trailhead" element={<Trailhead />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
