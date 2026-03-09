@@ -34,9 +34,9 @@ export function seedDemoData() {
         'ff-distracter': [4, 3, 4, 5, 3],
         'ff-dissociator': [2, 1, 2, 2, 1],
         'ff-rage': [3, 3, 4, 3, 3],
-        'exile-abandoned': [4, 5, 4, 4, 5],
-        'exile-shame': [3, 4, 4, 3, 4],
-        'exile-lonely': [2, 2, 3, 2, 2],
+        'ex-abandoned': [4, 5, 4, 4, 5],
+        'ex-worthless': [3, 4, 4, 3, 4],
+        'ex-rejected': [2, 2, 3, 2, 2],
       },
     });
   }
