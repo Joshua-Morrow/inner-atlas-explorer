@@ -7,6 +7,9 @@ import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import PartsInventory from "./pages/PartsInventory";
 import PartsMap from "./pages/PartsMap";
+import InnerDialogue from "./pages/InnerDialogue";
+import DataLinks from "./pages/DataLinks";
+import Update from "./pages/Update";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
