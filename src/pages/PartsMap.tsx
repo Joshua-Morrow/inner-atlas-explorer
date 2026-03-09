@@ -88,6 +88,23 @@ export default function PartsMap() {
           <MiniMap zoomable pannable className="bg-background" />
           <Background color="#ccc" gap={16} />
         </ReactFlow>
+
+        {/* Self-energy gauge overlay */}
+        {latestCheckIn && (
+          <div className="absolute bottom-4 left-4 z-10 bg-card/90 backdrop-blur-sm border rounded-lg p-3 shadow-md">
+            <div className="relative w-12 h-12 mx-auto">
+              <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
+                <circle cx="50" cy="50" r="40" fill="none" stroke="hsl(var(--muted))" strokeWidth="8" />
+                <circle cx="50" cy="50" r="40" fill="none" stroke="hsl(45, 90%, 50%)" strokeWidth="8" strokeLinecap="round"
+                  strokeDasharray={`${(latestCheckIn.overallEnergy / 100) * 251.3} 251.3`} />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-xs font-bold">{latestCheckIn.overallEnergy}%</span>
+              </div>
+            </div>
+            <div className="text-[10px] text-muted-foreground text-center mt-1">Self Energy</div>
+          </div>
+        )}
       </div>
     </div>
   );
