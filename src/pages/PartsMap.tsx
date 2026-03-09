@@ -105,8 +105,10 @@ export default function PartsMap() {
           <Background color="#ccc" gap={16} />
         </ReactFlow>
 
+        <MapLegend />
+
         {latestCheckIn && (
-          <div className="absolute bottom-4 left-4 z-10 bg-card/90 backdrop-blur-sm border rounded-lg p-3 shadow-md">
+          <div className="absolute top-4 left-4 z-10 bg-card/90 backdrop-blur-sm border rounded-lg p-3 shadow-md">
             <div className="relative w-12 h-12 mx-auto">
               <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
                 <circle cx="50" cy="50" r="40" fill="none" stroke="hsl(var(--muted))" strokeWidth="8" />
