@@ -19,6 +19,9 @@ import { useSelfEnergyStore } from '@/lib/selfEnergyStore';
 export default function PartsMap() {
   const parts = useStore((state) => state.parts);
   const { isPartElaborated } = useElaborationStore();
+  const { getLatestCheckIn, getRecentBlendedPartIds } = useSelfEnergyStore();
+  const latestCheckIn = getLatestCheckIn();
+  const blendedIds = getRecentBlendedPartIds();
   
   // Transform parts into nodes
   const initialNodes: Node[] = parts.map((part, index) => {
