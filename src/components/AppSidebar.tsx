@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom"
-import { Home, Grid, Map as MapIcon, MessageCircle, Zap, Book, ClipboardCheck, Shield, Sparkles, Route } from "lucide-react"
+import { Home, Grid, Map as MapIcon, MessageCircle, Zap, Book, ClipboardCheck, Shield, Sparkles, Route, Sun } from "lucide-react"
 import { useStore } from "@/lib/store"
 import { useElaborationStore } from "@/lib/elaborationStore"
 import { useTrailheadStore } from "@/lib/trailheadStore"
@@ -23,6 +23,7 @@ const items = [
   { title: "Parts Map", url: "/map", icon: MapIcon },
   { title: "Inner Dialogue", url: "/dialogue", icon: MessageCircle },
   { title: "Trailhead", url: "/trailhead", icon: Route },
+  { title: "Self Energy", url: "/self-energy", icon: Sun },
   { title: "Update", url: "/update", icon: Zap },
   { title: "DataLinks", url: "/datalinks", icon: Book },
   { title: "Assessment", url: "/assessment", icon: ClipboardCheck },
