@@ -31,6 +31,7 @@ export default function PartsMap() {
     if (part.type === 'Self') shapeClass = "rounded-full ring-4 ring-offset-2"; // Radiant
 
     const elaborated = isPartElaborated(part.id);
+    const isBlended = blendedIds.includes(part.id);
 
     return {
       id: part.id,
