@@ -10,6 +10,16 @@ import { format, differenceInDays } from "date-fns";
 export default function Dashboard() {
   const parts = useStore((state) => state.parts);
   const dialogues = useStore((state) => state.dialogues);
+  const { firstUseDate, earnedMilestones, setFirstUse } = useJourneyStore();
+
+  // Set first use on mount
+  if (!firstUseDate) setFirstUse();
+
+  const daysSinceStart = firstUseDate ? differenceInDays(new Date(), new Date(firstUseDate)) : 0;
+  const lastMilestone = earnedMilestones.length > 0
+    ? earnedMilestones[earnedMilestones.length - 1]
+    : null;
+  const lastMilestoneDef = lastMilestone ? MILESTONES.find((m) => m.id === lastMilestone.milestoneId) : null;
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
