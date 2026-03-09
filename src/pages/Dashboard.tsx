@@ -1,13 +1,25 @@
 import { useStore } from "@/lib/store";
+import { useJourneyStore, MILESTONES } from "@/lib/journeyStore";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, MessageCircle, Map, Zap, Heart, Route } from "lucide-react";
+import { Plus, MessageCircle, Map, Zap, Heart, Route, Mountain } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Slider } from "@/components/ui/slider";
+import { format, differenceInDays } from "date-fns";
 
 export default function Dashboard() {
   const parts = useStore((state) => state.parts);
   const dialogues = useStore((state) => state.dialogues);
+  const { firstUseDate, earnedMilestones, setFirstUse } = useJourneyStore();
+
+  // Set first use on mount
+  if (!firstUseDate) setFirstUse();
+
+  const daysSinceStart = firstUseDate ? differenceInDays(new Date(), new Date(firstUseDate)) : 0;
+  const lastMilestone = earnedMilestones.length > 0
+    ? earnedMilestones[earnedMilestones.length - 1]
+    : null;
+  const lastMilestoneDef = lastMilestone ? MILESTONES.find((m) => m.id === lastMilestone.milestoneId) : null;
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
@@ -79,6 +91,44 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* My Journey Widget */}
+      <Card className="border-primary/10">
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <Mountain className="h-5 w-5 text-primary" />
+            My Journey
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-4 text-sm">
+            <div>
+              <span className="text-2xl font-bold text-primary">{daysSinceStart}</span>
+              <p className="text-xs text-muted-foreground">days of inner work</p>
+            </div>
+            <div>
+              <span className="text-2xl font-bold text-primary">{earnedMilestones.length}</span>
+              <p className="text-xs text-muted-foreground">milestones earned</p>
+            </div>
+            <div className="flex-1 min-w-[150px]">
+              {lastMilestoneDef ? (
+                <p className="text-xs text-muted-foreground">
+                  Latest: <span className="font-medium text-foreground">{lastMilestoneDef.title}</span>
+                  {lastMilestone && <span className="ml-1">({format(new Date(lastMilestone.earnedAt), 'MMM d')})</span>}
+                </p>
+              ) : (
+                <p className="text-xs text-muted-foreground">Complete activities to earn milestones.</p>
+              )}
+              <p className="text-xs text-muted-foreground mt-1">
+                You have {parts.length} parts in your system with {dialogues.length} recorded dialogues.
+              </p>
+            </div>
+          </div>
+          <Button variant="outline" size="sm" className="mt-3" asChild>
+            <Link to="/journey">View Full Journey →</Link>
+          </Button>
+        </CardContent>
+      </Card>
 
       {/* Quick Actions */}
       <h2 className="text-xl font-semibold mt-8 mb-4">Quick Actions</h2>

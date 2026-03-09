@@ -19,6 +19,7 @@ import CouplesConnection from "./pages/CouplesConnection";
 import Clarity from "./pages/Clarity";
 import BodyMap from "./pages/BodyMap";
 import Practices from "./pages/Practices";
+import Journey from "./pages/Journey";
 import NotFound from "./pages/NotFound";
 import { useAssessmentStore } from "./lib/assessmentStore";
 
@@ -57,6 +58,7 @@ const App = () => (
             <Route path="clarity" element={<Clarity />} />
             <Route path="body-map" element={<BodyMap />} />
             <Route path="practices" element={<Practices />} />
+            <Route path="journey" element={<Journey />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
