@@ -19,13 +19,34 @@ import { useAssessmentStore } from './assessmentStore';
 const d = (daysAgo: number) =>
   new Date(Date.now() - daysAgo * 86_400_000).toISOString();
 
+const SEED_VERSION = 'v2-assessment-flow';
+
 export function seedDemoData() {
-  // ── Assessment guard ──
+  // Reset if seed version changed (ensures assessment flow is accessible after code update)
+  const lastSeed = localStorage.getItem('inner-atlas-seed-version');
+  if (lastSeed !== SEED_VERSION) {
+    // Clear assessment state so the onboarding flow is navigable
+    useAssessmentStore.getState().resetAssessment();
+    useAssessmentStore.setState({ hasCompletedAssessment: false, currentStage: 'not-started' });
+    localStorage.setItem('inner-atlas-seed-version', SEED_VERSION);
+  }
+
+  // ── Assessment: pre-seed stage1 answers for demo but don't skip flow ──
   const assessment = useAssessmentStore.getState();
-  if (!assessment.hasCompletedAssessment) {
+  if (!assessment.hasCompletedAssessment && Object.keys(assessment.stage1Answers).length === 0) {
     useAssessmentStore.setState({
-      hasCompletedAssessment: true,
-      currentStage: 'complete',
+      stage1Answers: {
+        'mgr-perfectionist': [4, 5, 4, 3, 5],
+        'mgr-critic': [5, 4, 4, 3, 4],
+        'mgr-pleaser': [3, 4, 3, 3, 4],
+        'mgr-controller': [2, 2, 3, 2, 1],
+        'ff-distracter': [4, 3, 4, 5, 3],
+        'ff-dissociator': [2, 1, 2, 2, 1],
+        'ff-rage': [3, 3, 4, 3, 3],
+        'ex-abandoned': [4, 5, 4, 4, 5],
+        'ex-worthless': [3, 4, 4, 3, 4],
+        'ex-rejected': [2, 2, 3, 2, 2],
+      },
     });
   }
 
