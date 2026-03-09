@@ -17,6 +17,7 @@ import SelfEnergy from "./pages/SelfEnergy";
 import Refine from "./pages/Refine";
 import CouplesConnection from "./pages/CouplesConnection";
 import Clarity from "./pages/Clarity";
+import BodyMap from "./pages/BodyMap";
 import NotFound from "./pages/NotFound";
 import { useAssessmentStore } from "./lib/assessmentStore";
 
@@ -53,6 +54,7 @@ const App = () => (
             <Route path="self-energy" element={<SelfEnergy />} />
             <Route path="couples" element={<CouplesConnection />} />
             <Route path="clarity" element={<Clarity />} />
+            <Route path="body-map" element={<BodyMap />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
