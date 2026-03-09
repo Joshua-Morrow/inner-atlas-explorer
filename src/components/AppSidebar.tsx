@@ -30,6 +30,7 @@ const items = [
   { title: "Assessment", url: "/assessment", icon: ClipboardCheck },
   { title: "Couples", url: "/couples", icon: Heart },
   { title: "Clarity", url: "/clarity", icon: Compass },
+  { title: "Body Map", url: "/body-map", icon: PersonStanding },
 ]
 
 export function AppSidebar() {
