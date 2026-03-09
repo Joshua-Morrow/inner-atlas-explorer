@@ -52,9 +52,10 @@ export default function InnerDialogue() {
         <ScrollArea className="flex-1 p-4">
           <div className="space-y-6">
             {currentDialogue.messages.map((msg, idx) => {
+              const part = parts.find(p => p.id === msg.partId);
               const speaker = msg.partId === 'self' 
                 ? { name: 'Self', color: 'hsl(45, 90%, 50%)' }
-                : parts.find(p => p.id === msg.partId) || { name: 'Unknown', color: '#ccc' };
+                : part ? { name: part.name, color: part.accentColor } : { name: 'Unknown', color: '#ccc' };
 
               const isSelf = msg.partId === 'self';
 
