@@ -21,6 +21,7 @@ export default function PartsMap() {
   const parts = useStore((state) => state.parts);
   const { isPartElaborated } = useElaborationStore();
   const { getLatestCheckIn, getRecentBlendedPartIds } = useSelfEnergyStore();
+  const { getRefinementLevel } = useRefineStore();
   const latestCheckIn = getLatestCheckIn();
   const blendedIds = getRecentBlendedPartIds();
   
