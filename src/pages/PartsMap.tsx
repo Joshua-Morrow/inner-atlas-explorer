@@ -17,6 +17,7 @@ import { useElaborationStore } from '@/lib/elaborationStore';
 import { useSelfEnergyStore } from '@/lib/selfEnergyStore';
 import { useRefineStore } from '@/lib/refineStore';
 import { ManagerNode, FirefighterNode, ExileNode, SelfNode } from '@/components/map/CustomNodes';
+import { MapLegend } from '@/components/map/MapLegend';
 
 const nodeTypes = {
   manager: ManagerNode,
