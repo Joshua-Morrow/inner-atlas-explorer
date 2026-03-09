@@ -34,6 +34,7 @@ export default function PartsMap() {
 
     const elaborated = isPartElaborated(part.id);
     const isBlended = blendedIds.includes(part.id);
+    const refined = getRefinementLevel(part.id) !== 'none';
 
     return {
       id: part.id,
