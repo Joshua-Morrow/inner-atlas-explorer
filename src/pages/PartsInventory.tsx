@@ -17,6 +17,7 @@ const typeColors: Record<PartType, string> = {
 export default function PartsInventory() {
   const parts = useStore((state) => state.parts);
   const { getPartElaborationProgress, isPartElaborated } = useElaborationStore();
+  const { getRefinementLevel } = useRefineStore();
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
