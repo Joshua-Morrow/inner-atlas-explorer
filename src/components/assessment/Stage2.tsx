@@ -36,7 +36,7 @@ export default function Stage2() {
   if (!current) return null;
 
   const partDef = current.partDef;
-  const answers = stage2Answers[partDef.id] || {};
+  const answers = stage2Answers[partDef.id] || defaultAnswers;
   const progress = (stage2CurrentIndex / total) * 100;
 
   const typeBadgeClass = (type: string) => {
