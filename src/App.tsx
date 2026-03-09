@@ -11,6 +11,7 @@ import InnerDialogue from "./pages/InnerDialogue";
 import DataLinks from "./pages/DataLinks";
 import Update from "./pages/Update";
 import Assessment from "./pages/Assessment";
+import Elaboration from "./pages/Elaboration";
 import NotFound from "./pages/NotFound";
 import { useAssessmentStore } from "./lib/assessmentStore";
 
@@ -18,7 +19,6 @@ const queryClient = new QueryClient();
 
 function AssessmentGuard({ children }: { children: React.ReactNode }) {
   const { hasCompletedAssessment, currentStage } = useAssessmentStore();
-  // If never completed and not in-progress, redirect to assessment
   if (!hasCompletedAssessment && currentStage === 'not-started') {
     return <Navigate to="/assessment" replace />;
   }
@@ -42,6 +42,7 @@ const App = () => (
             <Route path="dialogue" element={<InnerDialogue />} />
             <Route path="datalinks" element={<DataLinks />} />
             <Route path="update" element={<Update />} />
+            <Route path="elaborate/:partId" element={<Elaboration />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
