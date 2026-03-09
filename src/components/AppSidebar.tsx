@@ -29,6 +29,7 @@ const items = [
   { title: "DataLinks", url: "/datalinks", icon: Book },
   { title: "Assessment", url: "/assessment", icon: ClipboardCheck },
   { title: "Couples", url: "/couples", icon: Heart },
+  { title: "Clarity", url: "/clarity", icon: Compass },
 ]
 
 export function AppSidebar() {

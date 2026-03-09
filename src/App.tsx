@@ -52,6 +52,7 @@ const App = () => (
             <Route path="trailhead" element={<Trailhead />} />
             <Route path="self-energy" element={<SelfEnergy />} />
             <Route path="couples" element={<CouplesConnection />} />
+            <Route path="clarity" element={<Clarity />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
