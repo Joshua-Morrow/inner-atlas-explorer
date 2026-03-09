@@ -25,6 +25,9 @@ const App = () => (
             <Route index element={<Dashboard />} />
             <Route path="inventory" element={<PartsInventory />} />
             <Route path="map" element={<PartsMap />} />
+            <Route path="dialogue" element={<InnerDialogue />} />
+            <Route path="datalinks" element={<DataLinks />} />
+            <Route path="update" element={<Update />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
