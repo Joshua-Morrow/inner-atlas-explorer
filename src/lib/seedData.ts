@@ -20,7 +20,7 @@ import { useDynamicsStore } from './dynamicsStore';
 const d = (daysAgo: number) =>
   new Date(Date.now() - daysAgo * 86_400_000).toISOString();
 
-const SEED_VERSION = 'v2-assessment-flow';
+const SEED_VERSION = 'v3-dynamics';
 
 export function seedDemoData() {
   // Reset if seed version changed (ensures assessment flow is accessible after code update)
