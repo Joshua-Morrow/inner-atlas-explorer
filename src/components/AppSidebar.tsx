@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom"
-import { Home, Grid, Map as MapIcon, MessageCircle, Zap, Book, ClipboardCheck, Shield, Sparkles, Route, Sun, Diamond, PenLine, Heart, Compass, PersonStanding, Leaf, Mountain } from "lucide-react"
+import { Home, Grid, Map as MapIcon, MessageCircle, Zap, Book, ClipboardCheck, Shield, Sparkles, Route, Sun, Diamond, PenLine, Heart, Compass, PersonStanding, Leaf, Mountain, GitCompareArrows } from "lucide-react"
 import { useStore } from "@/lib/store"
 import { useElaborationStore } from "@/lib/elaborationStore"
 import { useTrailheadStore } from "@/lib/trailheadStore"

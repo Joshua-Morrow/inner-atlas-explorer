@@ -49,6 +49,7 @@ function AppContent() {
         <Route path="inventory" element={<PartsInventory />} />
         <Route path="part/:partId" element={<PartProfile />} />
         <Route path="map" element={<PartsMap />} />
+        <Route path="dynamics" element={<Dynamics />} />
         <Route path="dialogue" element={<InnerDialogue />} />
         <Route path="datalinks" element={<DataLinks />} />
         <Route path="update" element={<Update />} />
