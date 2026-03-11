@@ -50,6 +50,10 @@
     --ifs-firefighter: 30 90% 50%;
     --ifs-exile: 270 50% 60%;
     --ifs-self: 45 90% 50%;
+
+    /* Dynamics */
+    --dynamics-polarization: 0 65% 45%;
+    --dynamics-alliance: 152 60% 30%;
   }
 
   .dark {
@@ -95,6 +99,10 @@
     --ifs-firefighter: 30 90% 60%;
     --ifs-exile: 270 50% 70%;
     --ifs-self: 45 90% 60%;
+
+    /* Dynamics */
+    --dynamics-polarization: 0 65% 55%;
+    --dynamics-alliance: 152 60% 45%;
   }
 }
 
