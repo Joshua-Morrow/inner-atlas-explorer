@@ -1,13 +1,16 @@
+import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useStore, PartType } from '@/lib/store';
 import { useElaborationStore, elaborationTabs } from '@/lib/elaborationStore';
 import { useRefineStore } from '@/lib/refineStore';
 import { useBodyMapStore } from '@/lib/bodyMapStore';
+import { useDynamicsStore } from '@/lib/dynamicsStore';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Sparkles, PenLine, Diamond, Activity, MessageCircle, Clock } from 'lucide-react';
+import { ChevronLeft, Sparkles, PenLine, Diamond, Activity, MessageCircle, Clock, ArrowLeftRight, Users } from 'lucide-react';
+import { CreateDynamicFlow } from '@/components/dynamics/CreateDynamicFlow';
 import { format } from 'date-fns';
 
 const typeColors: Record<PartType, string> = {
@@ -18,6 +21,7 @@ const typeColors: Record<PartType, string> = {
 };
 
 export default function PartProfile() {
+  const [createDynamicType, setCreateDynamicType] = useState<'polarization' | 'alliance' | null>(null);
   const { partId } = useParams<{ partId: string }>();
   const navigate = useNavigate();
   const parts = useStore((s) => s.parts);
@@ -81,9 +85,10 @@ export default function PartProfile() {
       </div>
 
       <Tabs defaultValue="overview">
-        <TabsList className="w-full grid grid-cols-4">
+        <TabsList className="w-full grid grid-cols-5">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="body">Body</TabsTrigger>
+          <TabsTrigger value="relationships">Relationships</TabsTrigger>
           <TabsTrigger value="dialogues">Dialogues</TabsTrigger>
           <TabsTrigger value="history">History</TabsTrigger>
         </TabsList>
@@ -198,6 +203,11 @@ export default function PartProfile() {
           </Card>
         </TabsContent>
 
+        {/* RELATIONSHIPS / DYNAMICS */}
+        <TabsContent value="relationships">
+          <DynamicsSection partId={partId!} displayName={displayName} onCreateDynamic={setCreateDynamicType} />
+        </TabsContent>
+
         {/* DIALOGUES */}
         <TabsContent value="dialogues">
           {partDialogues.length === 0 ? (
@@ -276,6 +286,70 @@ export default function PartProfile() {
           </div>
         </TabsContent>
       </Tabs>
+
+      <CreateDynamicFlow
+        open={createDynamicType !== null}
+        onOpenChange={(open) => { if (!open) setCreateDynamicType(null); }}
+        dynamicType={createDynamicType || 'polarization'}
+        preSelectedPartId={partId}
+      />
+    </div>
+  );
+}
+
+function DynamicsSection({ partId, displayName, onCreateDynamic }: { partId: string; displayName: string; onCreateDynamic: (type: 'polarization' | 'alliance') => void }) {
+  const parts = useStore((s) => s.parts);
+  const partDynamics = useDynamicsStore((s) => s.getDynamicsForPart(partId));
+
+  const statusColor = (s: string) =>
+    s === 'active' ? 'border-dynamics-polarization text-dynamics-polarization' :
+    s === 'easing' ? 'border-amber-500 text-amber-500' :
+    'border-dynamics-alliance text-dynamics-alliance';
+
+  return (
+    <div className="space-y-4">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm">System Dynamics</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {partDynamics.length === 0 ? (
+            <p className="text-sm text-muted-foreground text-center py-4">
+              {displayName} is not currently mapped in any polarization or alliance.
+            </p>
+          ) : (
+            <div className="space-y-2">
+              {partDynamics.map((d) => (
+                <Link key={d.id} to="/dynamics" className="flex items-center gap-3 p-3 rounded-lg border hover:bg-accent/30 transition-colors">
+                  <Badge className={d.dynamicType === 'polarization' ? 'bg-dynamics-polarization text-white border-0 text-[10px]' : 'bg-dynamics-alliance text-white border-0 text-[10px]'}>
+                    {d.dynamicType === 'polarization' ? <><ArrowLeftRight className="h-3 w-3 mr-1" />Pol</> : <><Users className="h-3 w-3 mr-1" />All</>}
+                  </Badge>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-medium text-sm">{d.title}</div>
+                    <div className="flex gap-1 mt-0.5">
+                      {d.partIds.filter((id) => id !== partId).map((id) => {
+                        const p = parts.find((pp) => pp.id === id);
+                        return p ? <span key={id} className="text-[10px] text-muted-foreground">{p.name}</span> : null;
+                      })}
+                    </div>
+                  </div>
+                  <Badge variant="outline" className={`text-[10px] ${statusColor(d.status)}`}>
+                    {d.status.charAt(0).toUpperCase() + d.status.slice(1)}
+                  </Badge>
+                </Link>
+              ))}
+            </div>
+          )}
+          <div className="flex gap-2 mt-4">
+            <Button variant="outline" size="sm" onClick={() => onCreateDynamic('polarization')}>
+              <ArrowLeftRight className="h-3.5 w-3.5 mr-1.5" /> Add Polarization
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => onCreateDynamic('alliance')}>
+              <Users className="h-3.5 w-3.5 mr-1.5" /> Add Alliance
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

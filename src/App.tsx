@@ -8,6 +8,7 @@ import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import PartsInventory from "./pages/PartsInventory";
 import PartsMap from "./pages/PartsMap";
+import Dynamics from "./pages/Dynamics";
 import InnerDialogue from "./pages/InnerDialogue";
 import DataLinks from "./pages/DataLinks";
 import Update from "./pages/Update";
@@ -48,6 +49,7 @@ function AppContent() {
         <Route path="inventory" element={<PartsInventory />} />
         <Route path="part/:partId" element={<PartProfile />} />
         <Route path="map" element={<PartsMap />} />
+        <Route path="dynamics" element={<Dynamics />} />
         <Route path="dialogue" element={<InnerDialogue />} />
         <Route path="datalinks" element={<DataLinks />} />
         <Route path="update" element={<Update />} />

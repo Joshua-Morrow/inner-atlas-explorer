@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import {
   ReactFlow,
   MiniMap,
@@ -16,6 +16,7 @@ import { useStore } from '@/lib/store';
 import { useElaborationStore } from '@/lib/elaborationStore';
 import { useSelfEnergyStore } from '@/lib/selfEnergyStore';
 import { useRefineStore } from '@/lib/refineStore';
+import { useDynamicsStore } from '@/lib/dynamicsStore';
 import { ManagerNode, FirefighterNode, ExileNode, SelfNode } from '@/components/map/CustomNodes';
 import { MapLegend } from '@/components/map/MapLegend';
 
@@ -31,8 +32,10 @@ export default function PartsMap() {
   const { isPartElaborated } = useElaborationStore();
   const { getLatestCheckIn, getRecentBlendedPartIds } = useSelfEnergyStore();
   const { getRefinementLevel } = useRefineStore();
+  const dynamics = useDynamicsStore((s) => s.dynamics);
   const latestCheckIn = getLatestCheckIn();
   const blendedIds = getRecentBlendedPartIds();
+  const [showDynamics, setShowDynamics] = useState(true);
 
   const positionMap: Record<string, { x: number; y: number }> = {
     p5: { x: 400, y: 250 },
@@ -62,7 +65,8 @@ export default function PartsMap() {
     };
   });
 
-  const initialEdges: Edge[] = [
+  // Base relationship edges
+  const baseEdges: Edge[] = [
     { id: 'e1-3', source: 'p1', target: 'p3', label: 'protects', style: { stroke: 'hsl(230, 60%, 40%)', strokeWidth: 2 }, animated: true },
     { id: 'e4-3', source: 'p4', target: 'p3', label: 'protects', style: { stroke: 'hsl(210, 50%, 35%)', strokeWidth: 2 }, animated: true },
     { id: 'e2-3', source: 'p2', target: 'p3', label: 'protects', style: { stroke: 'hsl(30, 90%, 50%)', strokeWidth: 2 }, animated: true },
@@ -73,6 +77,48 @@ export default function PartsMap() {
     { id: 'e5-3', source: 'p5', target: 'p3', style: { stroke: 'hsl(45, 90%, 50%)', strokeWidth: 1.5 } },
     { id: 'e5-4', source: 'p5', target: 'p4', style: { stroke: 'hsl(45, 90%, 50%)', strokeWidth: 1.5 } },
   ];
+
+  // Dynamic overlay edges
+  const dynamicEdges: Edge[] = useMemo(() => {
+    if (!showDynamics) return [];
+    const edges: Edge[] = [];
+    dynamics.filter((d) => d.status !== 'resolved').forEach((d) => {
+      const isPol = d.dynamicType === 'polarization';
+      const color = isPol ? 'hsl(0, 65%, 45%)' : 'hsl(152, 60%, 30%)';
+      // Generate edges between all pairs
+      for (let i = 0; i < d.partIds.length; i++) {
+        for (let j = i + 1; j < d.partIds.length; j++) {
+          edges.push({
+            id: `dyn-${d.id}-${i}-${j}`,
+            source: d.partIds[i],
+            target: d.partIds[j],
+            label: isPol ? 'P' : 'A',
+            animated: isPol,
+            style: {
+              stroke: color,
+              strokeWidth: 3,
+              strokeDasharray: !isPol ? '8,4' : undefined,
+            },
+            zIndex: 10,
+            labelStyle: {
+              fontSize: 9,
+              fontWeight: 700,
+              fill: 'white',
+            },
+            labelBgStyle: {
+              fill: color,
+              fillOpacity: 1,
+            },
+            labelBgPadding: [4, 4] as [number, number],
+            labelBgBorderRadius: 4,
+          });
+        }
+      }
+    });
+    return edges;
+  }, [dynamics, showDynamics]);
+
+  const initialEdges: Edge[] = [...baseEdges, ...dynamicEdges];
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -105,7 +151,7 @@ export default function PartsMap() {
           <Background color="#ccc" gap={16} />
         </ReactFlow>
 
-        <MapLegend />
+        <MapLegend showDynamics={showDynamics} onToggleDynamics={() => setShowDynamics(!showDynamics)} />
 
         {latestCheckIn && (
           <div className="absolute top-4 left-4 z-10 bg-card/90 backdrop-blur-sm border rounded-lg p-3 shadow-md">

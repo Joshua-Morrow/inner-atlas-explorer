@@ -63,6 +63,10 @@ export default {
           exile: "hsl(var(--ifs-exile))",
           self: "hsl(var(--ifs-self))",
         },
+        dynamics: {
+          polarization: "hsl(var(--dynamics-polarization))",
+          alliance: "hsl(var(--dynamics-alliance))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
