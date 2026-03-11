@@ -1,13 +1,16 @@
+import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useStore, PartType } from '@/lib/store';
 import { useElaborationStore, elaborationTabs } from '@/lib/elaborationStore';
 import { useRefineStore } from '@/lib/refineStore';
 import { useBodyMapStore } from '@/lib/bodyMapStore';
+import { useDynamicsStore } from '@/lib/dynamicsStore';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Sparkles, PenLine, Diamond, Activity, MessageCircle, Clock } from 'lucide-react';
+import { ChevronLeft, Sparkles, PenLine, Diamond, Activity, MessageCircle, Clock, ArrowLeftRight, Users } from 'lucide-react';
+import { CreateDynamicFlow } from '@/components/dynamics/CreateDynamicFlow';
 import { format } from 'date-fns';
 
 const typeColors: Record<PartType, string> = {
