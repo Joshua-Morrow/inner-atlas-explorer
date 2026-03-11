@@ -84,9 +84,10 @@ export default function PartProfile() {
       </div>
 
       <Tabs defaultValue="overview">
-        <TabsList className="w-full grid grid-cols-4">
+        <TabsList className="w-full grid grid-cols-5">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="body">Body</TabsTrigger>
+          <TabsTrigger value="relationships">Relationships</TabsTrigger>
           <TabsTrigger value="dialogues">Dialogues</TabsTrigger>
           <TabsTrigger value="history">History</TabsTrigger>
         </TabsList>
