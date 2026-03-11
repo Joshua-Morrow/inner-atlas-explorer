@@ -22,6 +22,7 @@ const items = [
   { title: "Dashboard", url: "/", icon: Home },
   { title: "Parts Inventory", url: "/inventory", icon: Grid },
   { title: "Parts Map", url: "/map", icon: MapIcon },
+  { title: "Dynamics", url: "/dynamics", icon: GitCompareArrows },
   { title: "Inner Dialogue", url: "/dialogue", icon: MessageCircle },
   { title: "Trailhead", url: "/trailhead", icon: Route },
   { title: "Self Energy", url: "/self-energy", icon: Sun },
