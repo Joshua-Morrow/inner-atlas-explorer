@@ -21,6 +21,7 @@ const typeColors: Record<PartType, string> = {
 };
 
 export default function PartProfile() {
+  const [createDynamicType, setCreateDynamicType] = useState<'polarization' | 'alliance' | null>(null);
   const { partId } = useParams<{ partId: string }>();
   const navigate = useNavigate();
   const parts = useStore((s) => s.parts);
