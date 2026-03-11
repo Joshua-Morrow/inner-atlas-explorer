@@ -14,6 +14,7 @@ import { useRefineStore } from './refineStore';
 import { usePracticesStore } from './practicesStore';
 import { useTrailheadStore } from './trailheadStore';
 import { useAssessmentStore } from './assessmentStore';
+import { useDynamicsStore } from './dynamicsStore';
 
 // Helper: ISO string N days ago
 const d = (daysAgo: number) =>
