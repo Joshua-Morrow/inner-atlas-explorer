@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
-export function MapLegend() {
+interface Props {
+  showDynamics: boolean;
+  onToggleDynamics: () => void;
+}
+
+export function MapLegend({ showDynamics, onToggleDynamics }: Props) {
   const [open, setOpen] = useState(true);
 
   return (
@@ -36,6 +41,25 @@ export function MapLegend() {
                 <LegendLine color="hsl(0, 84%, 60%)" dash={false} label="Conflicting" />
                 <LegendLine color="hsl(230, 60%, 40%)" dash={true} label="Protective" />
                 <LegendLine color="hsl(45, 90%, 50%)" dash={true} label="Neutral" />
+              </div>
+            </div>
+
+            {/* Dynamics toggle */}
+            <div>
+              <div className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">Dynamics</div>
+              <div className="space-y-1.5">
+                <LegendLine color="hsl(0, 65%, 45%)" dash={false} label="Polarization" badge="P" />
+                <LegendLine color="hsl(152, 60%, 30%)" dash={true} label="Alliance" badge="A" />
+                <button
+                  onClick={onToggleDynamics}
+                  className={`text-[10px] px-2 py-0.5 rounded border transition-colors ${
+                    showDynamics
+                      ? 'bg-primary/10 border-primary text-primary'
+                      : 'border-muted text-muted-foreground'
+                  }`}
+                >
+                  {showDynamics ? '● Visible' : '○ Hidden'}
+                </button>
               </div>
             </div>
           </div>
@@ -84,7 +108,7 @@ function LegendNode({ shape, color, label }: { shape: string; color: string; lab
   );
 }
 
-function LegendLine({ color, dash, label }: { color: string; dash: boolean; label: string }) {
+function LegendLine({ color, dash, label, badge }: { color: string; dash: boolean; label: string; badge?: string }) {
   return (
     <div className="flex items-center gap-2">
       <svg viewBox="0 0 28 6" className="w-7 h-1.5 shrink-0">
@@ -96,6 +120,11 @@ function LegendLine({ color, dash, label }: { color: string; dash: boolean; labe
         />
       </svg>
       <span className="text-[11px] text-foreground">{label}</span>
+      {badge && (
+        <span className="text-[8px] font-bold text-white px-1 py-0.5 rounded" style={{ backgroundColor: color }}>
+          {badge}
+        </span>
+      )}
     </div>
   );
 }
