@@ -203,6 +203,11 @@ export default function PartProfile() {
           </Card>
         </TabsContent>
 
+        {/* RELATIONSHIPS / DYNAMICS */}
+        <TabsContent value="relationships">
+          <DynamicsSection partId={partId!} displayName={displayName} onCreateDynamic={setCreateDynamicType} />
+        </TabsContent>
+
         {/* DIALOGUES */}
         <TabsContent value="dialogues">
           {partDialogues.length === 0 ? (
