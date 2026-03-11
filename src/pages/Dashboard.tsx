@@ -12,6 +12,8 @@ import { format, differenceInDays } from "date-fns";
 export default function Dashboard() {
   const parts = useStore((state) => state.parts);
   const dialogues = useStore((state) => state.dialogues);
+  const activePolarizations = useDynamicsStore((s) => s.getActivePolarizations());
+  const activeAlliances = useDynamicsStore((s) => s.getActiveAlliances());
   const { firstUseDate, earnedMilestones, setFirstUse } = useJourneyStore();
 
   // Set first use on mount
