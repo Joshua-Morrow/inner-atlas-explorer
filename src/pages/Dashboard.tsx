@@ -134,6 +134,36 @@ export default function Dashboard() {
         </CardContent>
       </Card>
 
+      {/* Dynamics Summary */}
+      {(activePolarizations.length > 0 || activeAlliances.length > 0) && (
+        <Card className="border-dynamics-polarization/20">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">System Dynamics</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-3">
+              {activePolarizations.length > 0 && (
+                <div className="flex items-center gap-1.5">
+                  <ArrowLeftRight className="h-4 w-4 text-dynamics-polarization" />
+                  <Badge className="bg-dynamics-polarization text-white border-0">{activePolarizations.length}</Badge>
+                  <span className="text-sm text-muted-foreground">active polarization{activePolarizations.length !== 1 ? 's' : ''}</span>
+                </div>
+              )}
+              {activeAlliances.length > 0 && (
+                <div className="flex items-center gap-1.5">
+                  <Users className="h-4 w-4 text-dynamics-alliance" />
+                  <Badge className="bg-dynamics-alliance text-white border-0">{activeAlliances.length}</Badge>
+                  <span className="text-sm text-muted-foreground">active alliance{activeAlliances.length !== 1 ? 's' : ''}</span>
+                </div>
+              )}
+            </div>
+            <Button variant="link" className="px-0 mt-1 h-auto text-primary" asChild>
+              <Link to="/dynamics">View Dynamics →</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Quick Actions */}
       <h2 className="text-xl font-semibold mt-8 mb-4">Quick Actions</h2>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
