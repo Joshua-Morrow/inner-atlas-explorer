@@ -597,4 +597,49 @@ export function seedDemoData() {
       ],
     });
   }
+
+  // ── Dynamics ──
+  const dyn = useDynamicsStore.getState();
+  if (dyn.dynamics.length === 0) {
+    useDynamicsStore.setState({
+      dynamics: [
+        {
+          id: 'dyn1',
+          dynamicType: 'polarization',
+          title: 'Critic–Avoider Loop',
+          partIds: ['p4', 'p2'],
+          description: "The Inner Critic's harshness triggers The Avoider's shutdown response. The more the Critic pushes, the more the Avoider retreats — and the more the Avoider retreats, the louder the Critic gets.",
+          eachPartFears: {
+            p4: 'If I stop pushing, we will fail and be exposed as worthless.',
+            p2: 'If I stay present for this criticism, the pain will be unbearable.',
+          },
+          costToSystem: 'Hours of productivity lost in the push-pull cycle. Emotional exhaustion. Little One gets caught in the crossfire.',
+          resolutionNotes: 'Both parts need to hear from Self that the system is safe. The Critic needs reassurance that worth is not performance-dependent.',
+          status: 'active',
+          sessionNotes: [
+            { id: 'dn1', text: 'Noticed this pattern activate strongly after the performance review.', createdAt: d(10) },
+            { id: 'dn2', text: 'Tried having both parts present together in a dialogue — Critic softened slightly when it saw Avoider\'s pain.', createdAt: d(5) },
+          ],
+          createdAt: d(20),
+          updatedAt: d(5),
+        },
+        {
+          id: 'dyn2',
+          dynamicType: 'alliance',
+          title: 'The Perfectionist Pair',
+          partIds: ['p1', 'p4'],
+          description: 'The Planner and Inner Critic work together to maintain high standards. The Planner organizes and prepares, while the Critic evaluates and pushes for more — a coordinated protective strategy.',
+          eachPartFears: {},
+          costToSystem: 'Burnout, difficulty relaxing, strained relationships when standards are projected onto others.',
+          resolutionNotes: '',
+          status: 'active',
+          sessionNotes: [
+            { id: 'dn3', text: 'These two are so aligned they feel like one part sometimes. Need to differentiate them more.', createdAt: d(12) },
+          ],
+          createdAt: d(18),
+          updatedAt: d(12),
+        },
+      ],
+    });
+  }
 }
