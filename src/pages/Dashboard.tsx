@@ -1,8 +1,10 @@
 import { useStore } from "@/lib/store";
 import { useJourneyStore, MILESTONES } from "@/lib/journeyStore";
+import { useDynamicsStore } from "@/lib/dynamicsStore";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, MessageCircle, Map, Zap, Heart, Route, Mountain } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Plus, MessageCircle, Map, Zap, Heart, Route, Mountain, ArrowLeftRight, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Slider } from "@/components/ui/slider";
 import { format, differenceInDays } from "date-fns";
