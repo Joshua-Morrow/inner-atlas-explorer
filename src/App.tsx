@@ -13,6 +13,7 @@ import InnerDialogue from "./pages/InnerDialogue";
 import DataLinks from "./pages/DataLinks";
 import Update from "./pages/Update";
 import Assessment from "./pages/Assessment";
+import FirstMapping from "./pages/FirstMapping";
 import Elaboration from "./pages/Elaboration";
 import Trailhead from "./pages/Trailhead";
 import SelfEnergy from "./pages/SelfEnergy";
