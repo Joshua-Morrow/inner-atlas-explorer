@@ -14,39 +14,35 @@ export default function Phase2Patterns() {
 
   const [clusterIdx, setClusterIdx] = useState(0);
   const [stepInCluster, setStepInCluster] = useState(0);
-  // For cluster D, track if we show inner-voice naming, exile naming
-  const [showSecondNaming, setShowSecondNaming] = useState(false);
 
   const cluster = clusters[clusterIdx];
-  if (!cluster) return null;
-
-  const totalQuestions = cluster.questions.length;
-
-  // Steps: 0..N-1 = questions, N = naming, N+1 = second naming (D only)
-  const isOnQuestion = stepInCluster < totalQuestions;
-  const isOnNaming = stepInCluster === totalQuestions;
-  const isOnSecondNaming = stepInCluster === totalQuestions + 1;
+  const totalQuestions = cluster?.questions.length ?? 0;
 
   const shouldShowSecondNaming = useMemo(() => {
-    if (!cluster.secondNamingMoment) return false;
+    if (!cluster?.secondNamingMoment) return false;
     const answers = clusterAnswers[cluster.id]?.[cluster.secondNamingMoment.conditionKey];
     if (Array.isArray(answers)) {
-      // Don't count "I feel settled when things are quiet" as indicating exile
       const meaningful = answers.filter(a => a !== 'I feel settled when things are quiet');
       return meaningful.length >= cluster.secondNamingMoment.conditionMinSelections;
     }
     return false;
   }, [cluster, clusterAnswers]);
 
-  // Check if inner voice is prominent for D-critic naming
   const shouldShowCriticNaming = useMemo(() => {
-    if (cluster.id !== 'D') return true;
+    if (!cluster || cluster.id !== 'D') return true;
     const voiceAnswer = clusterAnswers['D']?.['D-q1'];
     if (typeof voiceAnswer === 'string') {
       return ['Constantly', 'Frequently', 'Occasionally'].includes(voiceAnswer);
     }
     return true;
-  }, [cluster.id, clusterAnswers]);
+  }, [cluster, clusterAnswers]);
+
+  if (!cluster) return null;
+
+  // Steps: 0..N-1 = questions, N = naming, N+1 = second naming (D only)
+  const isOnQuestion = stepInCluster < totalQuestions;
+  const isOnNaming = stepInCluster === totalQuestions;
+  const isOnSecondNaming = stepInCluster === totalQuestions + 1;
 
   const advanceCluster = () => {
     if (clusterIdx < clusters.length - 1) {

@@ -227,7 +227,7 @@ export default function MapReveal() {
               className="text-[hsl(40,30%,88%)] font-serif text-xl leading-relaxed mb-6"
             >
               <span className="text-[#2D9596]">{protectorA.userChosenName}</span>
-              {' — working so hard, keeping the bar high — and the quiet ache underneath. They're connected. One is protecting the other.'}
+              {" — working so hard, keeping the bar high — and the quiet ache underneath. They\u2019re connected. One is protecting the other."}
             </motion.p>
           )}
 
