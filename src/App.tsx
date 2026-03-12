@@ -45,6 +45,7 @@ function AppContent() {
       <Route path="/assessment" element={<Layout />}>
         <Route index element={<Assessment />} />
       </Route>
+      <Route path="/first-mapping" element={<FirstMapping />} />
       <Route path="/" element={<AssessmentGuard><Layout /></AssessmentGuard>}>
         <Route index element={<Dashboard />} />
         <Route path="inventory" element={<PartsInventory />} />
