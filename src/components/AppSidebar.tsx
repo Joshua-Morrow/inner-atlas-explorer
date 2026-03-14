@@ -34,6 +34,8 @@ const items = [
   { title: "Body Map", url: "/body-map", icon: PersonStanding },
   { title: "Practices", url: "/practices", icon: Leaf },
   { title: "My Journey", url: "/journey", icon: Mountain },
+  { title: "Snapshot", url: "/snapshot", icon: Camera },
+  { title: "Snapshot History", url: "/snapshot-history", icon: Camera },
 ]
 
 export function AppSidebar() {

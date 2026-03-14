@@ -66,6 +66,8 @@ function AppContent() {
         <Route path="body-map" element={<BodyMap />} />
         <Route path="practices" element={<Practices />} />
         <Route path="journey" element={<Journey />} />
+        <Route path="snapshot" element={<Snapshot />} />
+        <Route path="snapshot-history" element={<SnapshotHistory />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
