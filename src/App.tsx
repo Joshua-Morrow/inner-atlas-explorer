@@ -23,6 +23,8 @@ import Clarity from "./pages/Clarity";
 import BodyMap from "./pages/BodyMap";
 import Practices from "./pages/Practices";
 import Journey from "./pages/Journey";
+import Snapshot from "./pages/Snapshot";
+import SnapshotHistory from "./pages/SnapshotHistory";
 import PartProfile from "./pages/PartProfile";
 import NotFound from "./pages/NotFound";
 import { useAssessmentStore } from "./lib/assessmentStore";
