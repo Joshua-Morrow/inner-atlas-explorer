@@ -4,7 +4,7 @@ import { useDynamicsStore } from "@/lib/dynamicsStore";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Plus, MessageCircle, Map, Zap, Heart, Route, Mountain, ArrowLeftRight, Users } from "lucide-react";
+import { Plus, MessageCircle, Map, Zap, Heart, Route, Mountain, ArrowLeftRight, Users, Camera } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Slider } from "@/components/ui/slider";
 import { format, differenceInDays } from "date-fns";
