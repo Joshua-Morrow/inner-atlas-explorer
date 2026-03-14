@@ -134,6 +134,22 @@ export default function Dashboard() {
         </CardContent>
       </Card>
 
+      {/* Generate System Snapshot */}
+      <Card className="border-primary/30 bg-gradient-to-br from-card to-primary/5">
+        <CardContent className="py-6 flex items-center gap-4">
+          <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <Camera className="h-6 w-6 text-primary" />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-semibold text-lg">Generate System Snapshot</h3>
+            <p className="text-sm text-muted-foreground">Capture a comprehensive report of your inner system's current state.</p>
+          </div>
+          <Button asChild>
+            <Link to="/snapshot">Generate</Link>
+          </Button>
+        </CardContent>
+      </Card>
+
       {/* Dynamics Summary */}
       {(activePolarizations.length > 0 || activeAlliances.length > 0) && (
         <Card className="border-dynamics-polarization/20">
