@@ -23,6 +23,8 @@ import Clarity from "./pages/Clarity";
 import BodyMap from "./pages/BodyMap";
 import Practices from "./pages/Practices";
 import Journey from "./pages/Journey";
+import Snapshot from "./pages/Snapshot";
+import SnapshotHistory from "./pages/SnapshotHistory";
 import PartProfile from "./pages/PartProfile";
 import NotFound from "./pages/NotFound";
 import { useAssessmentStore } from "./lib/assessmentStore";
@@ -64,6 +66,8 @@ function AppContent() {
         <Route path="body-map" element={<BodyMap />} />
         <Route path="practices" element={<Practices />} />
         <Route path="journey" element={<Journey />} />
+        <Route path="snapshot" element={<Snapshot />} />
+        <Route path="snapshot-history" element={<SnapshotHistory />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

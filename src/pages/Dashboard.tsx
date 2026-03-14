@@ -4,7 +4,7 @@ import { useDynamicsStore } from "@/lib/dynamicsStore";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Plus, MessageCircle, Map, Zap, Heart, Route, Mountain, ArrowLeftRight, Users } from "lucide-react";
+import { Plus, MessageCircle, Map, Zap, Heart, Route, Mountain, ArrowLeftRight, Users, Camera } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Slider } from "@/components/ui/slider";
 import { format, differenceInDays } from "date-fns";
@@ -130,6 +130,22 @@ export default function Dashboard() {
           </div>
           <Button variant="outline" size="sm" className="mt-3" asChild>
             <Link to="/journey">View Full Journey →</Link>
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Generate System Snapshot */}
+      <Card className="border-primary/30 bg-gradient-to-br from-card to-primary/5">
+        <CardContent className="py-6 flex items-center gap-4">
+          <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <Camera className="h-6 w-6 text-primary" />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-semibold text-lg">Generate System Snapshot</h3>
+            <p className="text-sm text-muted-foreground">Capture a comprehensive report of your inner system's current state.</p>
+          </div>
+          <Button asChild>
+            <Link to="/snapshot">Generate</Link>
           </Button>
         </CardContent>
       </Card>
