@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useStore } from "@/lib/store";
 import { useJourneyStore, MILESTONES } from "@/lib/journeyStore";
 import { useDynamicsStore } from "@/lib/dynamicsStore";
@@ -16,8 +17,9 @@ export default function Dashboard() {
   const activeAlliances = useDynamicsStore((s) => s.getActiveAlliances());
   const { firstUseDate, earnedMilestones, setFirstUse } = useJourneyStore();
 
-  // Set first use on mount
-  if (!firstUseDate) setFirstUse();
+  useEffect(() => {
+    if (!firstUseDate) setFirstUse();
+  }, [firstUseDate, setFirstUse]);
 
   const daysSinceStart = firstUseDate ? differenceInDays(new Date(), new Date(firstUseDate)) : 0;
   const lastMilestone = earnedMilestones.length > 0
