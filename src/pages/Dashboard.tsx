@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Plus, MessageCircle, Map, Zap, Heart, Route, Mountain, ArrowLeftRight, Users, Camera } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Slider } from "@/components/ui/slider";
+import { format, differenceInDays } from "date-fns";
 
 export default function Dashboard() {
   const parts = useStore((state) => state.parts);
@@ -16,8 +17,9 @@ export default function Dashboard() {
   const activeAlliances = useDynamicsStore((s) => s.getActiveAlliances());
   const { firstUseDate, earnedMilestones, setFirstUse } = useJourneyStore();
 
-  // Set first use on mount
-  if (!firstUseDate) setFirstUse();
+  useEffect(() => {
+    if (!firstUseDate) setFirstUse();
+  }, [firstUseDate, setFirstUse]);
 
   const daysSinceStart = firstUseDate ? differenceInDays(new Date(), new Date(firstUseDate)) : 0;
   const lastMilestone = earnedMilestones.length > 0
