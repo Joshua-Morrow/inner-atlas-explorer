@@ -13,9 +13,12 @@ import { format, differenceInDays } from "date-fns";
 export default function Dashboard() {
   const parts = useStore((state) => state.parts);
   const dialogues = useStore((state) => state.dialogues);
-  const activePolarizations = useDynamicsStore((s) => s.getActivePolarizations());
-  const activeAlliances = useDynamicsStore((s) => s.getActiveAlliances());
-  const { firstUseDate, earnedMilestones, setFirstUse } = useJourneyStore();
+  const dynamics = useDynamicsStore((s) => s.dynamics);
+  const activePolarizations = dynamics.filter((d) => d.dynamicType === "polarization" && d.status === "active");
+  const activeAlliances = dynamics.filter((d) => d.dynamicType === "alliance" && d.status === "active");
+  const firstUseDate = useJourneyStore((s) => s.firstUseDate);
+  const earnedMilestones = useJourneyStore((s) => s.earnedMilestones);
+  const setFirstUse = useJourneyStore((s) => s.setFirstUse);
 
   useEffect(() => {
     if (!firstUseDate) setFirstUse();

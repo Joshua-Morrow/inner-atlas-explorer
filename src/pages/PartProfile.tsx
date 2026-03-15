@@ -299,7 +299,8 @@ export default function PartProfile() {
 
 function DynamicsSection({ partId, displayName, onCreateDynamic }: { partId: string; displayName: string; onCreateDynamic: (type: 'polarization' | 'alliance') => void }) {
   const parts = useStore((s) => s.parts);
-  const partDynamics = useDynamicsStore((s) => s.getDynamicsForPart(partId));
+  const dynamics = useDynamicsStore((s) => s.dynamics);
+  const partDynamics = dynamics.filter((d) => d.partIds.includes(partId));
 
   const statusColor = (s: string) =>
     s === 'active' ? 'border-dynamics-polarization text-dynamics-polarization' :
