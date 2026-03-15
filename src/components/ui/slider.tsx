@@ -28,11 +28,17 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps>(
     },
     ref
   ) => {
-    const [internalValue, setInternalValue] = React.useState(defaultValue?.[0] ?? min);
-    const isControlled = value !== undefined;
-    const currentValue = isControlled ? (value?.[0] ?? min) : internalValue;
+    const numericMin = typeof min === "number" ? min : Number(min ?? 0);
+    const numericMax = typeof max === "number" ? max : Number(max ?? 100);
+    const numericStep = typeof step === "number" ? step : Number(step ?? 1);
 
-    const percentage = max > min ? ((currentValue - min) / (max - min)) * 100 : 0;
+    const [internalValue, setInternalValue] = React.useState(defaultValue?.[0] ?? numericMin);
+    const isControlled = value !== undefined;
+    const currentValue = isControlled ? (value?.[0] ?? numericMin) : internalValue;
+
+    const percentage = numericMax > numericMin
+      ? ((currentValue - numericMin) / (numericMax - numericMin)) * 100
+      : 0;
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const nextValue = Number(event.target.value);
@@ -52,9 +58,9 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps>(
         <input
           ref={ref}
           type="range"
-          min={min}
-          max={max}
-          step={step}
+          min={numericMin}
+          max={numericMax}
+          step={numericStep}
           value={currentValue}
           disabled={disabled}
           onChange={handleChange}
